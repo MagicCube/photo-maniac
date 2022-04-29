@@ -30,6 +30,11 @@ function handleMessage(
     sendResponse({
       successful: true,
     });
+  } else if (message.type === 'photomaniac.commands.updatePhotos') {
+    photoService.updatePhotos();
+    sendResponse({
+      successful: true,
+    });
   }
 }
 

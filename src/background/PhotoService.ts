@@ -25,10 +25,12 @@ export class PhotoService {
 
   async updatePhotos() {
     console.info('Updating photos...');
+    const categories = (await chrome.storage.local.get(['categories']))
+      .categories || [10, 24, 29, 13];
     const photosFromServer = await queryPhotos({
       feature: 'editors',
       filters: [
-        { key: 'CATEGORY', value: '29,9,3,8,30,13,27' },
+        { key: 'CATEGORY', value: categories.join(',') },
         { key: 'FOLLOWERS_COUNT', value: 'gte:0' },
       ],
       count: 200,

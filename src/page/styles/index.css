@@ -1,9 +1,12 @@
 :root {
+  --primary-color: #127af6;
   --background: #35363a;
   --text-color: white;
   --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  --font-size: 18px;
+  --font-size: 20px;
+  --spacing: 24px;
+  --spacing-small: 12px;
 }
 
 * {
@@ -28,6 +31,24 @@ body {
 
 a {
   color: var(--text-color);
+}
+
+.button {
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.button.primary {
+  background: var(--primary-color);
+  color: white;
+}
+
+.button.large {
+  font-size: calc(var(--font-size) * 1.2);
 }
 
 #pm-root {
@@ -64,7 +85,7 @@ a {
   bottom: 0;
   right: 0;
   height: 80px;
-  padding-left: 24px;
+  padding-left: var(--spacing);
   padding-bottom: 18px;
   background: linear-gradient(
     transparent 0%,
@@ -103,4 +124,85 @@ a {
   margin-left: 8px;
   margin-right: 8px;
   opacity: 0.75;
+}
+
+.pm-photo-category-selector-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding-top: var(--spacing);
+  padding-right: var(--spacing);
+}
+
+.pm-photo-category-dropdown {
+  position: absolute;
+  right: var(--spacing);
+  padding: var(--spacing);
+  color: #333;
+  background: white;
+  font-size: larger;
+  border: 1px solid #ccc;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+}
+
+.pm-photo-category-dropdown.active {
+  opacity: 0.9;
+  box-shadow: 0 0 32px rgba(0, 0, 0, 0.25);
+}
+
+.pm-photo-category-dropdown h3 {
+  margin-top: 0;
+}
+
+.pm-photo-category-list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  width: 540px;
+  margin: 0;
+  margin-bottom: var(--spacing-small);
+  padding: 0;
+}
+
+.pm-photo-category-list li {
+  display: flex;
+  align-items: center;
+  width: 50%;
+  margin: 0;
+  margin-bottom: var(--spacing-small);
+  padding: 0;
+}
+
+.pm-photo-category-list li.active label,
+.pm-photo-category-list li:hover label {
+  color: var(--primary-color);
+}
+
+.pm-photo-category-list input[type='checkbox'] {
+  width: 20px;
+  height: 20px;
+  margin-right: var(--spacing-small);
+}
+
+.pm-photo-category-icon {
+  width: 32px;
+  height: 32px;
+  opacity: 0.5;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.pm-photo-category-icon.active,
+.pm-photo-category-icon:hover {
+  opacity: 0.75;
+}
+
+.pm-photo-category-icon div {
+  width: 100%;
+  height: 4px;
+  margin-bottom: 6px;
+  background: white;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
 }
