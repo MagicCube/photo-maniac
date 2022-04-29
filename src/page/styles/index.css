@@ -72,9 +72,8 @@ a {
 .pm-photo-view {
   width: 100%;
   height: 100%;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  object-fit: cover;
+  object-position: center;
 }
 
 .pm-photo-info-container {

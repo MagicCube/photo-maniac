@@ -6,14 +6,8 @@ export interface PhotoViewProps {
 
 export function PhotoView({ data }: PhotoViewProps) {
   if (data) {
-    return (
-      <div
-        className="pm-photo-view"
-        style={{
-          backgroundImage: `url(${data?.images[0].webpUrl})`,
-        }}
-      ></div>
-    );
+    const url = data?.images[0].webpUrl;
+    return <img className="pm-photo-view" src={url} />;
   }
   return null;
 }
