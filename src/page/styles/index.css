@@ -5,8 +5,10 @@
   --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   --font-size: 16px;
+  --font-size-h3: 18px;
   --spacing: 24px;
   --spacing-small: 12px;
+  --spacing-smallest: 8px;
 }
 
 * {
@@ -48,7 +50,7 @@ a {
 }
 
 .button.large {
-  font-size: calc(var(--font-size) * 1.2);
+  font-size: larger;
 }
 
 #pm-root {
@@ -85,7 +87,7 @@ a {
   right: 0;
   height: 80px;
   padding-left: var(--spacing);
-  padding-bottom: 18px;
+  padding-bottom: calc(var(--spacing) / 1.33);
   background: linear-gradient(
     transparent 0%,
     rgba(0, 0, 0, 0.1) 25%,
@@ -95,12 +97,13 @@ a {
 
 .pm-photo-info {
   opacity: 0.75;
+  font-size: --font-size-h3;
 }
 
 .pm-photo-info-name {
   font-weight: normal;
   text-decoration: none;
-  opacity: 0.9;
+  opacity: 0.85;
   text-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
 }
 
@@ -110,7 +113,7 @@ a {
 
 .pm-photo-info-location {
   font-size: smaller;
-  opacity: 0.75;
+  opacity: 0.66;
   text-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
 }
 
@@ -122,7 +125,7 @@ a {
   content: '|';
   margin-left: 8px;
   margin-right: 8px;
-  opacity: 0.75;
+  opacity: 0.66;
 }
 
 .pm-photo-category-selector-container {
@@ -139,7 +142,6 @@ a {
   padding: var(--spacing);
   color: #333;
   background: white;
-  font-size: larger;
   border: 1px solid #ccc;
   opacity: 0;
   transition: all 0.2s ease-in-out;
@@ -169,7 +171,7 @@ a {
   align-items: center;
   width: 50%;
   margin: 0;
-  margin-bottom: var(--spacing-small);
+  margin-bottom: var(--spacing-smallest);
   padding: 0;
 }
 
