@@ -8,7 +8,7 @@ export function PhotoView({ data: photo }: PhotoViewProps) {
   if (photo) {
     return (
       <div
-        className="photoView"
+        className="pm-photo-view"
         style={{
           backgroundImage: `url(${photo?.images[0].webpUrl})`,
         }}

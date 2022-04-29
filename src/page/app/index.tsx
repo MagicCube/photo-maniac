@@ -17,8 +17,10 @@ export function App() {
     });
   }, []);
   return (
-    <div className="app">
-      <PhotoView data={photo} />
+    <div className="pm-app">
+      <div className="pm-photo-view-container">
+        <PhotoView data={photo} />
+      </div>
     </div>
   );
 }
