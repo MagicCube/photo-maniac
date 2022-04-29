@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "PhotoManiac",
+  "version": "1.0",
+  "description": "Present you with spectacular images every time when you open a new tab.",
+  "author": "Henry Li",
+  "permissions": ["storage"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background/index.ts"
+  },
+  "chrome_url_overrides": {
+    "newtab": "page/index.html"
+  }
+}

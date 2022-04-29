@@ -1,0 +1,26 @@
+fragment PhotoDiscoverSearchFragment on Query {
+  photos: photoDiscoverSearch(first: $count, filters: $filters, sort: $sort) {
+    edges {
+      node {
+        id
+        name
+        description
+        category
+        location
+        width
+        height
+        photographer: uploader {
+          id
+          username
+          displayName
+        }
+        images(sizes: [35]) {
+          id
+          size
+          jpegUrl
+          webpUrl
+        }
+      }
+    }
+  }
+}
