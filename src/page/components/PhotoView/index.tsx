@@ -1,10 +1,10 @@
 import type { Photo } from '@/types';
 
 export interface PhotoViewProps {
-  photo: Photo | null;
+  data: Photo | null;
 }
 
-export function PhotoView({ photo }: PhotoViewProps) {
+export function PhotoView({ data: photo }: PhotoViewProps) {
   if (photo) {
     return (
       <div

@@ -18,7 +18,7 @@ export function App() {
   }, []);
   return (
     <div className="app">
-      <PhotoView photo={photo} />
+      <PhotoView data={photo} />
     </div>
   );
 }
