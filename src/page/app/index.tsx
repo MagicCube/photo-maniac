@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 
-import type { Photo } from '@/types';
 import type { Message } from '@/messaging';
+import type { Photo } from '@/types';
 
-import { nextPhoto } from '../storage';
+import { PhotoInfo } from '../components/PhotoInfo';
 import { PhotoView } from '../components/PhotoView';
+import { nextPhoto } from '../storage';
 
 export function App() {
   const [photo, setPhoto] = useState<Photo | null>(null);
@@ -20,6 +21,9 @@ export function App() {
     <div className="pm-app">
       <div className="pm-photo-view-container">
         <PhotoView data={photo} />
+      </div>
+      <div className="pm-photo-info-container">
+        <PhotoInfo data={photo} />
       </div>
     </div>
   );

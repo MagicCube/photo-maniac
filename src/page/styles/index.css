@@ -1,6 +1,9 @@
 :root {
   --background: #35363a;
   --text-color: white;
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --font-size: 18px;
 }
 
 * {
@@ -19,6 +22,12 @@ body {
 body {
   color: var(--text-color);
   background: var(--background);
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+}
+
+a {
+  color: var(--text-color);
 }
 
 #pm-root {
@@ -45,4 +54,53 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.pm-photo-info-container {
+  display: flex;
+  position: absolute;
+  align-items: flex-end;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 80px;
+  padding-left: 24px;
+  padding-bottom: 18px;
+  background: linear-gradient(
+    transparent 0%,
+    rgba(0, 0, 0, 0.1) 25%,
+    rgba(0, 0, 0, 0.75) 101%
+  );
+}
+
+.pm-photo-info {
+  opacity: 0.85;
+}
+
+.pm-photo-info-name {
+  font-weight: normal;
+  text-decoration: none;
+  opacity: 0.9;
+  text-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
+}
+
+.pm-photo-info-name:hover {
+  opacity: 1;
+}
+
+.pm-photo-info-location {
+  font-size: smaller;
+  opacity: 0.75;
+  text-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
+}
+
+.pm-photo-info-location:hover {
+  opacity: 1;
+}
+
+.pm-photo-info-location::before {
+  content: '|';
+  margin-left: 8px;
+  margin-right: 8px;
+  opacity: 0.75;
 }

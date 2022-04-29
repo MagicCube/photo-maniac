@@ -4,17 +4,16 @@ export interface PhotoViewProps {
   data: Photo | null;
 }
 
-export function PhotoView({ data: photo }: PhotoViewProps) {
-  if (photo) {
+export function PhotoView({ data }: PhotoViewProps) {
+  if (data) {
     return (
       <div
         className="pm-photo-view"
         style={{
-          backgroundImage: `url(${photo?.images[0].webpUrl})`,
+          backgroundImage: `url(${data?.images[0].webpUrl})`,
         }}
       ></div>
     );
-  } else {
-    return null;
   }
+  return null;
 }
