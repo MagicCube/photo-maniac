@@ -28,10 +28,10 @@ export class PhotoService {
     const photosFromServer = await queryPhotos({
       feature: 'editors',
       filters: [
-        { key: 'CATEGORY', value: '29' },
+        { key: 'CATEGORY', value: '29,9,3,8,30,13,27' },
         { key: 'FOLLOWERS_COUNT', value: 'gte:0' },
       ],
-      count: 100,
+      count: 200,
     });
     const filteredPhotos = photosFromServer.filter(
       (photo) => photo.width / photo.height > 1.2
