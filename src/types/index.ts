@@ -28,3 +28,9 @@ export interface PhotoSearchFilter {
   key: string;
   value: string;
 }
+
+export interface PhotoCategory {
+  id: number;
+  name: string;
+  localizedName: string;
+}
