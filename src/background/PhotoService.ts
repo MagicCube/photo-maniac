@@ -1,3 +1,4 @@
+import type { Message } from '@/messaging';
 import type { Photo } from '@/types';
 import { shuffle } from '@/util/shuffle';
 
@@ -46,6 +47,9 @@ export class PhotoService {
       `${filteredPhotos.length}/${photosFromServer.length} photos updated from 500px.`
     );
     this.prefetchNextPhoto();
+    chrome.runtime.sendMessage({
+      type: 'photomaniac.events.photosUpdated',
+    } as Message);
   }
 
   async prefetchNextPhoto() {

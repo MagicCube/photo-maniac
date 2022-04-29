@@ -11,7 +11,7 @@ import { nextPhoto } from '../storage';
 export function App() {
   const [photo, setPhoto] = useState<Photo | null>(null);
   const [categories, setCategories] = useState<number[]>([]);
-  useEffect(() => {
+  const update = useCallback(() => {
     nextPhoto().then((photo) => {
       setPhoto(photo);
       if (chrome?.runtime) {
@@ -20,10 +20,27 @@ export function App() {
         } as Message);
       }
     });
+  }, []);
+  useEffect(() => {
+    update();
     if (chrome?.storage?.local) {
       chrome.storage.local.get('categories').then((result) => {
         result.categories && setCategories(result.categories);
       });
+    }
+    if (chrome?.runtime) {
+      chrome.runtime.onMessage.addListener(
+        (message: Message, sender, sendResponse) => {
+          const { type } = message;
+          console.info('Received message:', message);
+          if (type === 'photomaniac.events.photosUpdated') {
+            update();
+            sendResponse({
+              successful: true,
+            });
+          }
+        }
+      );
     }
   }, []);
   const handleCategoryChange = useCallback((changedSelections: number[]) => {
