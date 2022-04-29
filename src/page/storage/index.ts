@@ -1,6 +1,6 @@
 import type { Photo } from '@/types';
 
-import { localPhotos } from './local-photos';
+import { localPhotos } from '@/data/local-photos';
 
 export async function nextPhoto(): Promise<Photo | null> {
   try {
