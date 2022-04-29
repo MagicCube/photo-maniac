@@ -1,5 +1,6 @@
 export interface Image {
   id: string;
+  size: number;
   jpegUrl: string;
   webpUrl: string;
 }
@@ -12,6 +13,7 @@ export interface Photographer {
 
 export interface Photo {
   id: string;
+  legacyId: string;
   name: string;
   description: string;
   category: string;

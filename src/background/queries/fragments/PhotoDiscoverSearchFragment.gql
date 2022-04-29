@@ -3,6 +3,7 @@ fragment PhotoDiscoverSearchFragment on Query {
     edges {
       node {
         id
+        legacyId
         name
         description
         category
