@@ -22,19 +22,33 @@ export function PhotoInfo({ data }: PhotoInfoProps) {
           >
             {data.name}
           </a>
-          {data.location ? (
-            <a
-              className="pm-photo-info-location"
-              rel="noopener noreferrer"
-              target="_blank"
-              href={locationURL.toString()}
-            >
-              {data.location}
-            </a>
-          ) : null}
-          <span className="pm-photo-info-category">
-            {formatCategoryName(data.category)}
-          </span>
+          <div className="pm-photo-info-details">
+            <span>
+              <a
+                className="pm-photo-info-photographer"
+                rel="noopener noreferrer"
+                target="_blank"
+                href={`https://500px.com/p/${data.photographer.username}/`}
+              >
+                {data.photographer.displayName}
+              </a>
+            </span>
+            {data.location ? (
+              <span>
+                <a
+                  className="pm-photo-info-location"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  href={locationURL.toString()}
+                >
+                  {data.location}
+                </a>
+              </span>
+            ) : null}
+            <span className="pm-photo-info-category">
+              #{formatCategoryName(data.category)}
+            </span>
+          </div>
         </div>
       );
   }

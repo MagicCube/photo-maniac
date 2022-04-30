@@ -1,27 +1,23 @@
-import { useEffect, useState } from 'react';
-
 import type { Photo } from '@/types';
 
 export interface PhotoViewProps {
   data: Photo | null;
+  onError: () => void;
 }
 
-export function PhotoView({ data }: PhotoViewProps) {
-  const [hasError, setError] = useState(false);
-  useEffect(() => {
-    setError(false);
-  }, [data]);
-  const handleError = () => {
-    setError(true);
-  };
+export function PhotoView({ data, onError }: PhotoViewProps) {
   if (data) {
-    const url = data?.images[0].webpUrl;
+    let url = data?.images[0].webpUrl;
+    if (url === 'local') {
+      url = `/${data.legacyId}.jpeg`;
+    }
     return (
       <img
         className="pm-photo-view"
         src={url}
-        style={{ display: hasError ? 'none' : undefined }}
-        onError={handleError}
+        onError={() => {
+          onError();
+        }}
       />
     );
   }

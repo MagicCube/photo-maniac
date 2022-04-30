@@ -122,10 +122,9 @@ a:hover {
   opacity: 1;
 }
 
+.pm-photo-info-photographer,
 .pm-photo-info-location,
 .pm-photo-info-category {
-  opacity: 0.66;
-  font-size: smaller;
   text-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
 }
 
@@ -133,12 +132,20 @@ a:hover {
   opacity: 1;
 }
 
-.pm-photo-info-location::before,
-.pm-photo-info-category::before {
+.pm-photo-info-details span {
+  opacity: 0.66;
+  font-size: smaller;
+}
+
+.pm-photo-info-details span::before {
   content: '/';
   margin-left: 8px;
   margin-right: 8px;
   opacity: 0.66;
+}
+
+.pm-photo-info-details span:first-child:before {
+  display: none;
 }
 
 .pm-main-menu-container {
