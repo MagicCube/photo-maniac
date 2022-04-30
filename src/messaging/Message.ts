@@ -3,5 +3,5 @@ export interface Message<P = undefined> {
     | 'photomaniac.commands.nextPhoto'
     | 'photomaniac.commands.updatePhotos'
     | 'photomaniac.events.photosUpdated';
-  payload: P;
+  payload?: P;
 }

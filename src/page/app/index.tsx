@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import type { Message } from '@/messaging';
+import { MessageService } from '@/messaging';
 import { StorageService } from '@/storage';
 import type { Photo } from '@/types';
 
@@ -14,30 +14,16 @@ export function App() {
   const update = useCallback(() => {
     StorageService.instance.update().then(() => {
       setPhoto(StorageService.instance.data.nextPhoto);
-      if (chrome?.runtime) {
-        chrome.runtime.sendMessage({
-          type: 'photomaniac.commands.nextPhoto',
-        } as Message);
-      }
+      MessageService.instance.publish('photomaniac.commands.nextPhoto');
     });
   }, []);
   useEffect(() => {
     update();
     setCategories(StorageService.instance.data.categories);
-    if (chrome?.runtime) {
-      chrome.runtime.onMessage.addListener(
-        (message: Message, sender, sendResponse) => {
-          const { type } = message;
-          console.info('Received message:', message);
-          if (type === 'photomaniac.events.photosUpdated') {
-            update();
-            sendResponse({
-              successful: true,
-            });
-          }
-        }
-      );
-    }
+    MessageService.instance.subscribe(
+      'photomaniac.events.photosUpdated',
+      update
+    );
   }, []);
   const handleSelectedCategoriesChanged = useCallback(
     (changedSelections: number[]) => {
@@ -47,11 +33,7 @@ export function App() {
     []
   );
   const handleUpdate = useCallback(() => {
-    if (chrome?.runtime) {
-      chrome.runtime.sendMessage({
-        type: 'photomaniac.commands.updatePhotos',
-      } as Message);
-    }
+    MessageService.instance.publish('photomaniac.commands.updatePhotos');
   }, []);
   return (
     <div className="pm-app">

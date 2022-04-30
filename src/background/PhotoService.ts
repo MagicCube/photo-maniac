@@ -1,4 +1,4 @@
-import type { Message } from '@/messaging';
+import { MessageService } from '@/messaging';
 import { StorageService } from '@/storage';
 import type { Photo } from '@/types';
 import { shuffle } from '@/util/shuffle';
@@ -18,6 +18,15 @@ export class PhotoService {
 
   constructor() {
     this._loadFromStorage();
+    MessageService.instance.subscribe('photomaniac.commands.nextPhoto', () => {
+      PhotoService.instance.prefetchNextPhoto();
+    });
+    MessageService.instance.subscribe(
+      'photomaniac.commands.updatePhotos',
+      () => {
+        PhotoService.instance.updatePhotos();
+      }
+    );
   }
 
   start() {
@@ -50,9 +59,7 @@ export class PhotoService {
       `${filteredPhotos.length}/${photosFromServer.length} photos updated from 500px.`
     );
     await this.prefetchNextPhoto();
-    await chrome.runtime.sendMessage({
-      type: 'photomaniac.events.photosUpdated',
-    } as Message);
+    MessageService.instance.publish('photomaniac.events.photosUpdated');
   }
 
   async prefetchNextPhoto() {
