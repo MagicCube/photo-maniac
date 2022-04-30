@@ -1,7 +1,7 @@
 {
   "name": "photo-maniac",
   "version": "1.0.0",
-  "description": "",
+  "description": "A Chrome extension presents you with stunning photos every time open a new tab.",
   "main": "index.js",
   "scripts": {
     "dev": "vite",

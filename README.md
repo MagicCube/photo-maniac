@@ -1,6 +1,6 @@
 # photo-maniac
 
-A Chrome extension presents you with stunning photos every time you open a new tab.
+A Chrome extension presents you with stunning photos every time open a new tab.
 
 ## Features
 
