@@ -160,7 +160,7 @@ a {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
-  width: 540px;
+  width: 400px;
   margin: 0;
   margin-bottom: var(--spacing-small);
   padding: 0;
