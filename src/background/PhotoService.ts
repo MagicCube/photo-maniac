@@ -4,6 +4,7 @@ import type { Photo } from '@/types';
 import { getCategoryName } from '@/util/category';
 import { getFeatureName } from '@/util/feature';
 import { shuffle } from '@/util/shuffle';
+import { CacheService } from './CacheService';
 
 import { queryPhotos } from './queries';
 
@@ -82,14 +83,7 @@ export class PhotoService {
   private async _prefetchPhoto(photo: Photo) {
     const url = photo.images[0].webpUrl;
     console.info(`Prefetching ${url}...`);
-    try {
-      caches.open('image-cache').then((cache) => {
-        fetch(url).then((response) => {
-          cache.put(url, response);
-          return response;
-        });
-      });
-    } catch {}
+    CacheService.cacheResponse(url);
     await StorageService.instance.saveNextPhoto(photo);
   }
 

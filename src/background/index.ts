@@ -1,4 +1,5 @@
 import { StorageService } from '@/storage';
+import { CacheService } from './CacheService';
 
 import { PhotoService } from './PhotoService';
 
@@ -8,16 +9,7 @@ async function main() {
 }
 
 self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.open('image-cache').then((cache) => {
-      return cache.match(event.request.url).then((cachedResponse) => {
-        if (cachedResponse) {
-          console.info('Cached request', event.request.url);
-        }
-        return cachedResponse?.clone() || fetch(event.request);
-      });
-    })
-  );
+  event.respondWith(CacheService.resolveResponse(event.request.url));
 });
 
 main();
