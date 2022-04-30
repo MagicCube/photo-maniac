@@ -1,8 +1,11 @@
 import { createRoot } from 'react-dom/client';
 
+import { StorageService } from '@/storage';
+
 import { App } from './app';
 
-function main() {
+async function main() {
+  await StorageService.instance.update();
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const root = createRoot(document.getElementById('pm-root')!);
   root.render(<App />);

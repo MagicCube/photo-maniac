@@ -1,6 +1,6 @@
 import type { Photo } from '@/types';
 
-export const localPhotos: Photo[] = [
+export const CACHED_PHOTOS: Photo[] = [
   {
     id: 'dXJpOm5vZGU6UGhvdG86MTA0NzE3NTYzMg==',
     legacyId: '1047175632',

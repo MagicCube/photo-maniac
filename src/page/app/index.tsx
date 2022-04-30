@@ -1,19 +1,19 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import type { Message } from '@/messaging';
+import { StorageService } from '@/storage';
 import type { Photo } from '@/types';
 
 import { MainMenu } from '../components/MainMenu';
 import { PhotoInfo } from '../components/PhotoInfo';
 import { PhotoView } from '../components/PhotoView';
-import { nextPhoto } from '../storage';
 
 export function App() {
   const [photo, setPhoto] = useState<Photo | null>(null);
   const [categories, setCategories] = useState<number[]>([]);
   const update = useCallback(() => {
-    nextPhoto().then((photo) => {
-      setPhoto(photo);
+    StorageService.instance.update().then(() => {
+      setPhoto(StorageService.instance.data.nextPhoto);
       if (chrome?.runtime) {
         chrome.runtime.sendMessage({
           type: 'photomaniac.commands.nextPhoto',
@@ -23,11 +23,7 @@ export function App() {
   }, []);
   useEffect(() => {
     update();
-    if (chrome?.storage?.local) {
-      chrome.storage.local.get('categories').then((result) => {
-        result.categories && setCategories(result.categories);
-      });
-    }
+    setCategories(StorageService.instance.data.categories);
     if (chrome?.runtime) {
       chrome.runtime.onMessage.addListener(
         (message: Message, sender, sendResponse) => {
@@ -46,9 +42,7 @@ export function App() {
   const handleSelectedCategoriesChanged = useCallback(
     (changedSelections: number[]) => {
       setCategories(changedSelections);
-      if (chrome?.storage) {
-        chrome.storage.local.set({ categories: changedSelections });
-      }
+      StorageService.instance.saveCategories(changedSelections);
     },
     []
   );

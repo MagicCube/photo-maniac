@@ -1,9 +1,9 @@
 import type { Message } from '@/messaging';
+import { StorageService } from '@/storage';
+
 import { PhotoService } from './PhotoService';
 
-const photoService = new PhotoService();
-
-function main() {
+async function main() {
   chrome.runtime.onMessage.addListener(
     (
       message: unknown,
@@ -18,7 +18,8 @@ function main() {
       }
     }
   );
-  photoService.start();
+  await StorageService.instance.update();
+  PhotoService.instance.start();
 }
 
 function handleMessage(
@@ -26,12 +27,12 @@ function handleMessage(
   sendResponse: (response: unknown) => void
 ) {
   if (message.type === 'photomaniac.commands.nextPhoto') {
-    photoService.prefetchNextPhoto();
+    PhotoService.instance.prefetchNextPhoto();
     sendResponse({
       successful: true,
     });
   } else if (message.type === 'photomaniac.commands.updatePhotos') {
-    photoService.updatePhotos();
+    PhotoService.instance.updatePhotos();
     sendResponse({
       successful: true,
     });

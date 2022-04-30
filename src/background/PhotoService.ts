@@ -1,10 +1,13 @@
 import type { Message } from '@/messaging';
+import { StorageService } from '@/storage';
 import type { Photo } from '@/types';
 import { shuffle } from '@/util/shuffle';
 
 import { queryPhotos } from './queries';
 
 export class PhotoService {
+  static readonly instance = new PhotoService();
+
   readonly photos: {
     all: Photo[];
     stack: Photo[];
@@ -14,11 +17,11 @@ export class PhotoService {
   };
 
   constructor() {
-    this._loadFromLocalStorage();
-    this.updatePhotos();
+    this._loadFromStorage();
   }
 
   start() {
+    this.updatePhotos();
     setInterval(() => {
       this.updatePhotos();
     }, 30 * 60 * 1000);
@@ -26,8 +29,8 @@ export class PhotoService {
 
   async updatePhotos() {
     console.info('Updating photos...');
-    const categories = (await chrome.storage.local.get(['categories']))
-      .categories || [10, 24, 29, 13];
+    await StorageService.instance.update();
+    const categories = StorageService.instance.data.categories;
     const photosFromServer = await queryPhotos({
       feature: 'editors',
       filters: [
@@ -68,16 +71,14 @@ export class PhotoService {
     try {
       await fetch(url);
     } catch {}
-    await chrome.storage.local.set({
-      'photo.next': photo,
-    });
+    await StorageService.instance.saveNextPhoto(photo);
   }
 
-  private async _loadFromLocalStorage() {
-    const results = await chrome.storage.local.get(['photos.all']);
+  private async _loadFromStorage() {
+    const results = StorageService.instance.data;
     if (results) {
-      this.photos.all = results['photos.all'] || [];
-      this.photos.stack = [...this.photos.all];
+      this.photos.all = results.allPhotos;
+      this.photos.stack = [...results.allPhotos];
       console.info(
         `${this.photos.all.length} photos loaded from local storage.`
       );
@@ -86,9 +87,7 @@ export class PhotoService {
   }
 
   private async _saveToLocalStorage() {
-    await chrome.storage.local.set({
-      'photos.all': this.photos.all,
-    });
+    StorageService.instance.saveAllPhotos(this.photos.all);
     console.info(`${this.photos.stack.length} photos saved to local storage.`);
   }
 
