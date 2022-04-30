@@ -4,7 +4,7 @@ A Chrome extension presents you with stunning photos every time you open a new t
 
 ## Features
 
-* Automatically update awsome photos from [500px.com](https://500px.com)
+* Automatically update awesome photos from [500px.com](https://500px.com)
 
 * Prefetch and cache images
 
