@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import type { Message } from '@/messaging';
 import type { Photo } from '@/types';
 
-import { PhotoCategorySelector } from '../components/PhotoCategorySelector';
+import { MainMenu } from '../components/MainMenu';
 import { PhotoInfo } from '../components/PhotoInfo';
 import { PhotoView } from '../components/PhotoView';
 import { nextPhoto } from '../storage';
@@ -43,12 +43,15 @@ export function App() {
       );
     }
   }, []);
-  const handleCategoryChange = useCallback((changedSelections: number[]) => {
-    setCategories(changedSelections);
-    if (chrome?.storage) {
-      chrome.storage.local.set({ categories: changedSelections });
-    }
-  }, []);
+  const handleSelectedCategoriesChanged = useCallback(
+    (changedSelections: number[]) => {
+      setCategories(changedSelections);
+      if (chrome?.storage) {
+        chrome.storage.local.set({ categories: changedSelections });
+      }
+    },
+    []
+  );
   const handleUpdate = useCallback(() => {
     if (chrome?.runtime) {
       chrome.runtime.sendMessage({
@@ -61,11 +64,11 @@ export function App() {
       <div className="pm-photo-view-container">
         <PhotoView data={photo} />
       </div>
-      <div className="pm-photo-category-selector-container">
-        <PhotoCategorySelector
+      <div className="pm-main-menu-container">
+        <MainMenu
           selections={categories}
-          onChange={handleCategoryChange}
-          onUpdate={handleUpdate}
+          onSelectedCategoriesChanged={handleSelectedCategoriesChanged}
+          onUpdateClick={handleUpdate}
         />
       </div>
       <div className="pm-photo-info-container">
