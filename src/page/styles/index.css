@@ -111,7 +111,8 @@ a {
   opacity: 1;
 }
 
-.pm-photo-info-location {
+.pm-photo-info-location,
+.pm-photo-info-category {
   font-size: smaller;
   opacity: 0.66;
   text-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
@@ -121,8 +122,9 @@ a {
   opacity: 1;
 }
 
-.pm-photo-info-location::before {
-  content: '|';
+.pm-photo-info-location::before,
+.pm-photo-info-category::before {
+  content: '/';
   margin-left: 8px;
   margin-right: 8px;
   opacity: 0.66;

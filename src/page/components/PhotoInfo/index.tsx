@@ -1,4 +1,5 @@
 import type { Photo } from '@/types';
+import { formatCategoryName } from '@/util/category';
 
 export interface PhotoInfoProps {
   data: Photo | null;
@@ -29,6 +30,9 @@ export function PhotoInfo({ data }: PhotoInfoProps) {
               {data.location}
             </a>
           ) : null}
+          <span className="pm-photo-info-category">
+            {formatCategoryName(data.category)}
+          </span>
         </div>
       );
   }
