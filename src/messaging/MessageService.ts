@@ -45,5 +45,5 @@ export class MessageService extends EventEmitter {
 }
 
 function supportRuntimeMessage() {
-  return chrome.runtime.sendMessage;
+  return chrome.runtime?.sendMessage;
 }
