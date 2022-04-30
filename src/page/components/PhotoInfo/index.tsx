@@ -16,6 +16,7 @@ export function PhotoInfo({ data }: PhotoInfoProps) {
         <div className="pm-photo-info">
           <a
             className="pm-photo-info-name"
+            rel="noopener noreferrer"
             target="_blank"
             href={`https://500px.com/photo/${data.legacyId}/`}
           >
@@ -24,6 +25,7 @@ export function PhotoInfo({ data }: PhotoInfoProps) {
           {data.location ? (
             <a
               className="pm-photo-info-location"
+              rel="noopener noreferrer"
               target="_blank"
               href={locationURL.toString()}
             >

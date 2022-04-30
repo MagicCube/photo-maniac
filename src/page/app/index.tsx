@@ -29,7 +29,7 @@ export function App() {
       'photomaniac.events.photosUpdated',
       update
     );
-  }, []);
+  }, [update]);
   const handleFeatureChange = useCallback((value: string) => {
     setFeature(value);
     StorageService.instance.saveFeature(value);
