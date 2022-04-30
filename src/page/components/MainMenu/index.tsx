@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { useEffect, useState } from 'react';
 
-import { CategoryList } from '../CategoryList';
+import { CategorySelector } from '../CategorySelector';
 
 import { MainMenuIcon } from './MainMenuIcon';
 
@@ -25,7 +25,7 @@ export function MainMenu({
   const handleIconClick = () => {
     setActive(!active);
   };
-  const handleCategoryListSelectionsChanged = (selections: number[]) => {
+  const handleCategorySelectorChanged = (selections: number[]) => {
     setSelectedCategories(selections);
     onSelectedCategoriesChanged(selections);
   };
@@ -39,9 +39,9 @@ export function MainMenu({
         <hr />
         <section>
           <h3>Categories</h3>
-          <CategoryList
+          <CategorySelector
             selections={selectedCategories}
-            onSelectionsChanged={handleCategoryListSelectionsChanged}
+            onSelectionsChanged={handleCategorySelectorChanged}
           />
         </section>
         <div>

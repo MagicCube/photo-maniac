@@ -3,15 +3,15 @@ import { useEffect, useState } from 'react';
 
 import { ALL_CATEGORIES } from '@/cached-data/all-categories';
 
-export interface CategoryListProps {
+export interface CategorySelectorProps {
   selections: number[];
   onSelectionsChanged: (selections: number[]) => void;
 }
 
-export function CategoryList({
+export function CategorySelector({
   selections: selectionsFromProp,
   onSelectionsChanged,
-}: CategoryListProps) {
+}: CategorySelectorProps) {
   const [selections, setSelections] = useState<number[]>(selectionsFromProp);
   useEffect(() => {
     setSelections(selectionsFromProp);
@@ -27,7 +27,7 @@ export function CategoryList({
     onSelectionsChanged(results);
   };
   return (
-    <ul className="pm-photo-category-list">
+    <ul className="pm-photo-category-selector">
       {ALL_CATEGORIES.map((category) => {
         const isActive = selections.includes(category.id);
         return (

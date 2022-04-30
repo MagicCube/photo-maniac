@@ -174,7 +174,7 @@ a:hover {
   margin-bottom: 8px;
 }
 
-.pm-photo-category-list {
+.pm-photo-category-selector {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
@@ -184,7 +184,7 @@ a:hover {
   padding: 0;
 }
 
-.pm-photo-category-list li {
+.pm-photo-category-selector li {
   display: flex;
   align-items: center;
   width: 50%;
@@ -193,12 +193,12 @@ a:hover {
   padding: 0;
 }
 
-.pm-photo-category-list li.active label,
-.pm-photo-category-list li:hover label {
+.pm-photo-category-selector li.active label,
+.pm-photo-category-selector li:hover label {
   color: var(--primary-color);
 }
 
-.pm-photo-category-list input[type='checkbox'] {
+.pm-photo-category-selector input[type='checkbox'] {
   width: 20px;
   height: 20px;
   margin-right: var(--spacing-small);
