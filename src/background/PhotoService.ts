@@ -46,8 +46,8 @@ export class PhotoService {
     console.info(
       `${filteredPhotos.length}/${photosFromServer.length} photos updated from 500px.`
     );
-    this.prefetchNextPhoto();
-    chrome.runtime.sendMessage({
+    await this.prefetchNextPhoto();
+    await chrome.runtime.sendMessage({
       type: 'photomaniac.events.photosUpdated',
     } as Message);
   }
