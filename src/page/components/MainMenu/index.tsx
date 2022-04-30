@@ -35,11 +35,15 @@ export function MainMenu({
         <MainMenuIcon active={active} onClick={handleIconClick} />
       </div>
       <div className={cn('pm-main-menu-dropdown', active && 'active')}>
-        <h3>Categories</h3>
-        <CategoryList
-          selections={selectedCategories}
-          onSelectionsChanged={handleCategoryListSelectionsChanged}
-        />
+        <h2>Photo Maniac</h2>
+        <hr />
+        <section>
+          <h3>Categories</h3>
+          <CategoryList
+            selections={selectedCategories}
+            onSelectionsChanged={handleCategoryListSelectionsChanged}
+          />
+        </section>
         <div>
           <button
             className="large primary button"
