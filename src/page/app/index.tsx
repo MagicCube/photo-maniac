@@ -14,7 +14,9 @@ export function App() {
   const [photo, setPhoto] = useState<Photo | null>(null);
   const update = useCallback(() => {
     StorageService.instance.update().then(() => {
-      setPhoto(StorageService.instance.data.nextPhoto);
+      const photo = StorageService.instance.data.nextPhoto;
+      console.info(photo);
+      setPhoto(photo);
       MessageService.instance.publish('photomaniac.commands.nextPhoto');
     });
   }, []);
