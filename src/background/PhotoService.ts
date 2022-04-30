@@ -83,7 +83,12 @@ export class PhotoService {
     const url = photo.images[0].webpUrl;
     console.info(`Prefetching ${url}...`);
     try {
-      await fetch(url);
+      caches.open('image-cache').then((cache) => {
+        fetch(url).then((response) => {
+          cache.put(url, response);
+          return response;
+        });
+      });
     } catch {}
     await StorageService.instance.saveNextPhoto(photo);
   }
