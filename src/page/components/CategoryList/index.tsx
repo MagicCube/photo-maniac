@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { useEffect, useState } from 'react';
 
-import { ALL_CATEGORIES } from '@/data/all-categories';
+import { ALL_CATEGORIES } from '@/cached-data/all-categories';
 
 export interface CategoryListProps {
   selections: number[];
