@@ -1,4 +1,4 @@
-import { CACHED_PHOTOS } from '@/cached-data/photos';
+import { CACHED_PHOTOS } from '@/cached-data/all-photos';
 import type { Photo } from '@/types';
 import { shuffle } from '@/util/shuffle';
 
