@@ -39,6 +39,11 @@ h3 {
 
 a {
   color: var(--text-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 .button {
@@ -108,7 +113,6 @@ a {
 
 .pm-photo-info-name {
   font-weight: normal;
-  text-decoration: none;
   opacity: 0.9;
   text-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
 }
@@ -119,8 +123,8 @@ a {
 
 .pm-photo-info-location,
 .pm-photo-info-category {
-  font-size: smaller;
   opacity: 0.66;
+  font-size: smaller;
   text-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
 }
 
