@@ -4,18 +4,18 @@ import { useEffect, useState } from 'react';
 import { ALL_CATEGORIES } from '@/cached-data/all-categories';
 
 export interface CategorySelectorProps {
-  selections: number[];
-  onSelectionsChanged: (selections: number[]) => void;
+  values: number[];
+  onChange: (selections: number[]) => void;
 }
 
 export function CategorySelector({
-  selections: selectionsFromProp,
-  onSelectionsChanged,
+  values: valueFromProp,
+  onChange,
 }: CategorySelectorProps) {
-  const [selections, setSelections] = useState<number[]>(selectionsFromProp);
+  const [selections, setSelections] = useState<number[]>(valueFromProp);
   useEffect(() => {
-    setSelections(selectionsFromProp);
-  }, [selectionsFromProp]);
+    setSelections(valueFromProp);
+  }, [valueFromProp]);
   const handleChecked = (id: number) => {
     let results: number[];
     if (selections.includes(id)) {
@@ -24,10 +24,10 @@ export function CategorySelector({
       results = [...selections, id];
     }
     setSelections(results);
-    onSelectionsChanged(results);
+    onChange(results);
   };
   return (
-    <ul className="pm-photo-category-selector">
+    <ul className="pm-category-selector">
       {ALL_CATEGORIES.map((category) => {
         const isActive = selections.includes(category.id);
         return (

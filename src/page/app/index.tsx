@@ -9,8 +9,9 @@ import { PhotoInfo } from '../components/PhotoInfo';
 import { PhotoView } from '../components/PhotoView';
 
 export function App() {
-  const [photo, setPhoto] = useState<Photo | null>(null);
+  const [feature, setFeature] = useState<string>('editors');
   const [categories, setCategories] = useState<number[]>([]);
+  const [photo, setPhoto] = useState<Photo | null>(null);
   const update = useCallback(() => {
     StorageService.instance.update().then(() => {
       setPhoto(StorageService.instance.data.nextPhoto);
@@ -19,19 +20,21 @@ export function App() {
   }, []);
   useEffect(() => {
     update();
+    setFeature(StorageService.instance.data.feature);
     setCategories(StorageService.instance.data.categories);
     MessageService.instance.subscribe(
       'photomaniac.events.photosUpdated',
       update
     );
   }, []);
-  const handleSelectedCategoriesChanged = useCallback(
-    (changedSelections: number[]) => {
-      setCategories(changedSelections);
-      StorageService.instance.saveCategories(changedSelections);
-    },
-    []
-  );
+  const handleFeatureChange = useCallback((value: string) => {
+    setFeature(value);
+    StorageService.instance.saveFeature(value);
+  }, []);
+  const handleCategoriesChange = useCallback((values: number[]) => {
+    setCategories(values);
+    StorageService.instance.saveCategories(values);
+  }, []);
   const handleUpdate = useCallback(() => {
     MessageService.instance.publish('photomaniac.commands.updatePhotos');
   }, []);
@@ -42,8 +45,10 @@ export function App() {
       </div>
       <div className="pm-main-menu-container">
         <MainMenu
-          selections={categories}
-          onSelectedCategoriesChanged={handleSelectedCategoriesChanged}
+          feature={feature}
+          categories={categories}
+          onFeatureChange={handleFeatureChange}
+          onCategoriesChange={handleCategoriesChange}
           onUpdateClick={handleUpdate}
         />
       </div>

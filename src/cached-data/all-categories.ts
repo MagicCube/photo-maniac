@@ -1,6 +1,6 @@
-import type { PhotoCategory } from '@/types';
+import type { Category } from '@/types';
 
-export const ALL_CATEGORIES: PhotoCategory[] = [
+export const ALL_CATEGORIES: Category[] = [
   { name: 'Travel', localizedName: '旅行', id: 13 },
   { name: 'Urban Explore', localizedName: '都市探索', id: 27 },
   { name: 'Aerial', localizedName: '航拍', id: 29 },

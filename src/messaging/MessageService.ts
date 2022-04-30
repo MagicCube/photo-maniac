@@ -1,6 +1,6 @@
 import EventEmitter from 'eventemitter3';
 
-import type { Message } from './Message';
+import type { Message, MessageType } from './Message';
 
 export class MessageService extends EventEmitter {
   static readonly instance = new MessageService();
@@ -18,18 +18,15 @@ export class MessageService extends EventEmitter {
     }
   }
 
-  subscribe(
-    messageType: Message['type'],
-    callback: (message: Message) => void
-  ) {
+  subscribe(messageType: MessageType, callback: (message: Message) => void) {
     this.on(messageType, callback);
   }
 
-  publish(message: Message | Message['type']) {
+  publish(message: Message | MessageType) {
     const msg: Message =
       typeof message == 'string' ? { type: message } : message;
     if (supportRuntimeMessage()) {
-      chrome.runtime.sendMessage(msg);
+      chrome.runtime.sendMessage(msg).catch();
     } else {
       window.postMessage(msg, '*');
     }

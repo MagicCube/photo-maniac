@@ -1,6 +1,8 @@
 import { MessageService } from '@/messaging';
 import { StorageService } from '@/storage';
 import type { Photo } from '@/types';
+import { getCategoryName } from '@/util/category';
+import { getFeatureName } from '@/util/feature';
 import { shuffle } from '@/util/shuffle';
 
 import { queryPhotos } from './queries';
@@ -37,11 +39,16 @@ export class PhotoService {
   }
 
   async updatePhotos() {
-    console.info('Updating photos...');
     await StorageService.instance.update();
+    const feature = StorageService.instance.data.feature;
     const categories = StorageService.instance.data.categories;
+    console.info(
+      `Updating ${getFeatureName(feature)} photos of [${categories
+        .map((c) => getCategoryName(c))
+        .join(', ')}]...`
+    );
     const photosFromServer = await queryPhotos({
-      feature: 'editors',
+      feature,
       filters: [
         { key: 'CATEGORY', value: categories.join(',') },
         { key: 'FOLLOWERS_COUNT', value: 'gte:0' },

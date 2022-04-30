@@ -2,32 +2,44 @@ import cn from 'classnames';
 import { useEffect, useState } from 'react';
 
 import { CategorySelector } from '../CategorySelector';
+import { FeatureSelector } from '../FeatureSelector';
 
 import { MainMenuIcon } from './MainMenuIcon';
 
 export interface MainMenuProps {
-  selections: number[];
-  onSelectedCategoriesChanged: (categories: number[]) => void;
+  feature: string;
+  categories: number[];
+  onFeatureChange: (feature: string) => void;
+  onCategoriesChange: (categories: number[]) => void;
   onUpdateClick: () => void;
 }
 
 export function MainMenu({
-  selections: selectionsFromProp,
-  onSelectedCategoriesChanged,
+  feature: featureFromProp,
+  categories: categoriesFromProp,
+  onFeatureChange,
+  onCategoriesChange,
   onUpdateClick: onUpdate,
 }: MainMenuProps) {
   const [active, setActive] = useState(false);
-  const [selectedCategories, setSelectedCategories] =
-    useState<number[]>(selectionsFromProp);
+  const [feature, setFeature] = useState(featureFromProp);
+  const [categories, setCategories] = useState<number[]>(categoriesFromProp);
   useEffect(() => {
-    setSelectedCategories(selectionsFromProp);
-  }, [selectionsFromProp]);
+    setFeature(featureFromProp);
+  }, [featureFromProp]);
+  useEffect(() => {
+    setCategories(categoriesFromProp);
+  }, [categoriesFromProp]);
   const handleIconClick = () => {
     setActive(!active);
   };
-  const handleCategorySelectorChanged = (selections: number[]) => {
-    setSelectedCategories(selections);
-    onSelectedCategoriesChanged(selections);
+  const handleFeatureChanged = (value: string) => {
+    setFeature(value);
+    onFeatureChange(value);
+  };
+  const handleCategoryChanged = (values: number[]) => {
+    setCategories(values);
+    onCategoriesChange(values);
   };
   return (
     <div className="pm-main-menu">
@@ -35,13 +47,15 @@ export function MainMenu({
         <MainMenuIcon active={active} onClick={handleIconClick} />
       </div>
       <div className={cn('pm-main-menu-dropdown', active && 'active')}>
-        <h2>Photo Maniac</h2>
-        <hr />
+        <section>
+          <h3>Features</h3>
+          <FeatureSelector value={feature} onChange={handleFeatureChanged} />
+        </section>
         <section>
           <h3>Categories</h3>
           <CategorySelector
-            selections={selectedCategories}
-            onSelectionsChanged={handleCategorySelectorChanged}
+            values={categories}
+            onChange={handleCategoryChanged}
           />
         </section>
         <div>

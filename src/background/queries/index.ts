@@ -11,7 +11,7 @@ export function queryPhotos({
   sort = 'POPULAR_PULSE',
   count = 20,
 }: {
-  feature: 'editors' | 'popular';
+  feature: string;
   filters: PhotoSearchFilter[];
   sort?: string;
   count?: number;
