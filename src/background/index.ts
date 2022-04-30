@@ -1,5 +1,5 @@
 import { StorageService } from '@/storage';
-import { CacheService } from './CacheService';
+import { PrefetchService } from './PrefetchService';
 
 import { PhotoService } from './PhotoService';
 
@@ -8,8 +8,8 @@ async function main() {
   PhotoService.start();
 }
 
-self.addEventListener('fetch', (event) => {
-  event.respondWith(CacheService.resolveResponse(event.request.url));
+self.addEventListener('fetch', (event: FetchEvent) => {
+  event.respondWith(PrefetchService.resolve(event.request.url));
 });
 
 main();

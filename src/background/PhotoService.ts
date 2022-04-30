@@ -4,7 +4,7 @@ import type { Photo } from '@/types';
 import { getCategoryName } from '@/util/category';
 import { getFeatureName } from '@/util/feature';
 import { shuffle } from '@/util/shuffle';
-import { CacheService } from './CacheService';
+import { PrefetchService } from './PrefetchService';
 
 import { queryPhotos } from './queries';
 
@@ -78,7 +78,7 @@ class PhotoServiceImpl {
   private async _prefetchPhoto(photo: Photo) {
     const url = photo.images[0].webpUrl;
     console.info(`Prefetching ${url}...`);
-    CacheService.cacheResponse(url);
+    await PrefetchService.prefetch(url);
     await StorageService.saveNextPhoto(photo);
   }
 
