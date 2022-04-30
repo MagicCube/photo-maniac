@@ -16,6 +16,7 @@ export function App() {
     StorageService.instance.update().then(() => {
       const photo = StorageService.instance.data.nextPhoto;
       console.info(JSON.stringify(photo, null, 2));
+      document.title = `New Tab${photo?.name && ` - ${photo.name}`}`;
       setPhoto(photo);
       MessageService.instance.publish('photomaniac.commands.nextPhoto');
     });
