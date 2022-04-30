@@ -1,5 +1,5 @@
 import react from '@vitejs/plugin-react';
-import { defineConfig, Plugin } from 'vite';
+import { defineConfig } from 'vite';
 import { chromeExtension } from 'vite-plugin-chrome-extension';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
