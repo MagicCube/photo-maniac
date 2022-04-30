@@ -2,9 +2,7 @@ import EventEmitter from 'eventemitter3';
 
 import type { Message, MessageType } from './Message';
 
-export class MessageService extends EventEmitter {
-  static readonly instance = new MessageService();
-
+class MessageServiceImpl extends EventEmitter {
   constructor() {
     super();
     if (supportRuntimeMessage()) {
@@ -44,3 +42,5 @@ export class MessageService extends EventEmitter {
 function supportRuntimeMessage() {
   return chrome.runtime?.sendMessage;
 }
+
+export const MessageService = new MessageServiceImpl();

@@ -15,33 +15,30 @@ export function App() {
   const [photo, setPhoto] = useState<Photo | null>(null);
   const [fallback, setFallback] = useState(false);
   const update = useCallback(() => {
-    StorageService.instance.update().then(() => {
-      const photo = StorageService.instance.data.nextPhoto;
+    StorageService.update().then(() => {
+      const photo = StorageService.data.nextPhoto;
       console.info(photo);
       document.title = `New Tab${photo?.name && ` - ${photo.name}`}`;
       setPhoto(photo);
-      MessageService.instance.publish('photomaniac.commands.nextPhoto');
+      MessageService.publish('photomaniac.commands.nextPhoto');
     });
   }, []);
   useEffect(() => {
     update();
-    setFeature(StorageService.instance.data.feature);
-    setCategories(StorageService.instance.data.categories);
-    MessageService.instance.subscribe(
-      'photomaniac.events.photosUpdated',
-      update
-    );
+    setFeature(StorageService.data.feature);
+    setCategories(StorageService.data.categories);
+    MessageService.subscribe('photomaniac.events.photosUpdated', update);
   }, [update]);
   const handleFeatureChange = useCallback((value: string) => {
     setFeature(value);
-    StorageService.instance.saveFeature(value);
+    StorageService.saveFeature(value);
   }, []);
   const handleCategoriesChange = useCallback((values: number[]) => {
     setCategories(values);
-    StorageService.instance.saveCategories(values);
+    StorageService.saveCategories(values);
   }, []);
   const handleUpdate = useCallback(() => {
-    MessageService.instance.publish('photomaniac.commands.updatePhotos');
+    MessageService.publish('photomaniac.commands.updatePhotos');
   }, []);
   const handleError = useCallback(() => {
     if (fallback) {

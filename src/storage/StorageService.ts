@@ -16,9 +16,7 @@ const DEFAULT_DATA: StoredData = {
   nextPhoto: CACHED_PHOTOS[Math.floor(Math.random() * CACHED_PHOTOS.length)],
 };
 
-export class StorageService {
-  static readonly instance = new StorageService();
-
+class StorageServiceImpl {
   private _data: StoredData = {
     ...DEFAULT_DATA,
   };
@@ -102,3 +100,5 @@ export class StorageService {
 function supportStorage() {
   return chrome.storage?.sync && chrome.storage.local;
 }
+
+export const StorageService = new StorageServiceImpl();

@@ -5,7 +5,7 @@ import { StorageService } from '@/storage';
 import { App } from './app';
 
 async function main() {
-  await StorageService.instance.update();
+  await StorageService.update();
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const root = createRoot(document.getElementById('pm-root')!);
   root.render(<App />);

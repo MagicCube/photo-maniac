@@ -8,9 +8,7 @@ import { CacheService } from './CacheService';
 
 import { queryPhotos } from './queries';
 
-export class PhotoService {
-  static readonly instance = new PhotoService();
-
+class PhotoServiceImpl {
   readonly photos: {
     all: Photo[];
     stack: Photo[];
@@ -21,15 +19,12 @@ export class PhotoService {
 
   constructor() {
     this._loadFromStorage();
-    MessageService.instance.subscribe('photomaniac.commands.nextPhoto', () => {
-      PhotoService.instance.prefetchNextPhoto();
+    MessageService.subscribe('photomaniac.commands.nextPhoto', () => {
+      this.prefetchNextPhoto();
     });
-    MessageService.instance.subscribe(
-      'photomaniac.commands.updatePhotos',
-      () => {
-        PhotoService.instance.updatePhotos();
-      }
-    );
+    MessageService.subscribe('photomaniac.commands.updatePhotos', () => {
+      this.updatePhotos();
+    });
   }
 
   start() {
@@ -40,9 +35,9 @@ export class PhotoService {
   }
 
   async updatePhotos() {
-    await StorageService.instance.update();
-    const feature = StorageService.instance.data.feature;
-    const categories = StorageService.instance.data.categories;
+    await StorageService.update();
+    const feature = StorageService.data.feature;
+    const categories = StorageService.data.categories;
     console.info(
       `Updating ${getFeatureName(feature)} photos of [${categories
         .map((c) => getCategoryName(c))
@@ -67,7 +62,7 @@ export class PhotoService {
       `${filteredPhotos.length}/${photosFromServer.length} photos updated from 500px.`
     );
     await this.prefetchNextPhoto();
-    MessageService.instance.publish('photomaniac.events.photosUpdated');
+    MessageService.publish('photomaniac.events.photosUpdated');
   }
 
   async prefetchNextPhoto() {
@@ -84,11 +79,11 @@ export class PhotoService {
     const url = photo.images[0].webpUrl;
     console.info(`Prefetching ${url}...`);
     CacheService.cacheResponse(url);
-    await StorageService.instance.saveNextPhoto(photo);
+    await StorageService.saveNextPhoto(photo);
   }
 
   private async _loadFromStorage() {
-    const results = StorageService.instance.data;
+    const results = StorageService.data;
     if (results) {
       this.photos.all = results.allPhotos;
       this.photos.stack = [...results.allPhotos];
@@ -100,7 +95,7 @@ export class PhotoService {
   }
 
   private async _saveToLocalStorage() {
-    StorageService.instance.saveAllPhotos(this.photos.all);
+    StorageService.saveAllPhotos(this.photos.all);
     console.info(`${this.photos.stack.length} photos saved to local storage.`);
   }
 
@@ -109,3 +104,5 @@ export class PhotoService {
     shuffle(this.photos.stack);
   }
 }
+
+export const PhotoService = new PhotoServiceImpl();

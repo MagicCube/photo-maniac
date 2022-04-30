@@ -4,8 +4,8 @@ import { CacheService } from './CacheService';
 import { PhotoService } from './PhotoService';
 
 async function main() {
-  await StorageService.instance.update();
-  PhotoService.instance.start();
+  await StorageService.update();
+  PhotoService.start();
 }
 
 self.addEventListener('fetch', (event) => {
