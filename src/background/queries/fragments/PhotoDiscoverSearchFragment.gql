@@ -10,6 +10,8 @@ fragment PhotoDiscoverSearchFragment on Query {
         location
         width
         height
+        notSafeForWork
+        tags
         photographer: uploader {
           id
           username

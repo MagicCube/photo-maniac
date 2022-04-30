@@ -56,7 +56,7 @@ export class PhotoService {
       count: 200,
     });
     const filteredPhotos = photosFromServer.filter(
-      (photo) => photo.width / photo.height > 1.2
+      (photo) => !photo.notSafeForWork || photo.width / photo.height >= 1
     );
     this.photos.all = filteredPhotos;
     this.photos.stack = [...filteredPhotos];

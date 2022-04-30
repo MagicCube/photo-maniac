@@ -21,6 +21,8 @@ export interface Photo {
   width: number;
   height: number;
   photographer: Photographer;
+  notSafeForWork: boolean;
+  tags: string[];
   images: Image[];
 }
 
