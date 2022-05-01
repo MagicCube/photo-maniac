@@ -23,12 +23,26 @@ export function App() {
       MessageService.publish('photomaniac.commands.nextPhoto');
     });
   }, []);
+  const fallbackToNextPhoto = useCallback(() => {
+    if (fallback) {
+      return;
+    }
+    setFallback(true);
+    const fallbackPhoto =
+      FALLBACK_PHOTOS[Math.floor(Math.random() * FALLBACK_PHOTOS.length)];
+    setPhoto(fallbackPhoto);
+    console.info(fallbackPhoto);
+  }, [fallback]);
   useEffect(() => {
-    update();
+    MessageService.subscribe('photomaniac.events.photosUpdated', update);
     setFeature(StorageService.data.feature);
     setCategories(StorageService.data.categories);
-    MessageService.subscribe('photomaniac.events.photosUpdated', update);
-  }, [update]);
+    if (navigator.onLine) {
+      update();
+    } else {
+      fallbackToNextPhoto();
+    }
+  }, [fallbackToNextPhoto, update]);
   const handleFeatureChange = useCallback((value: string) => {
     setFeature(value);
     StorageService.saveFeature(value);
@@ -41,15 +55,8 @@ export function App() {
     MessageService.publish('photomaniac.commands.updatePhotos');
   }, []);
   const handleError = useCallback(() => {
-    if (fallback) {
-      return;
-    }
-    setFallback(true);
-    const fallbackPhoto =
-      FALLBACK_PHOTOS[Math.floor(Math.random() * FALLBACK_PHOTOS.length)];
-    setPhoto(fallbackPhoto);
-    console.info(fallbackPhoto);
-  }, [fallback]);
+    fallbackToNextPhoto();
+  }, [fallbackToNextPhoto]);
   return (
     <div className="pm-app">
       <div className="pm-photo-view-container">
