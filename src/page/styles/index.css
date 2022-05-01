@@ -102,7 +102,7 @@ a:hover {
   padding-bottom: calc(var(--spacing) / 1.33);
   background: linear-gradient(
     transparent 0%,
-    rgba(0, 0, 0, 0.333) 33%,
+    rgba(0, 0, 0, 0.15) 40%,
     rgba(0, 0, 0, 0.75) 100%
   );
 }
