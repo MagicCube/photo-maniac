@@ -16,12 +16,13 @@ async function main() {
     {
       name: 'releaseVersion',
       type: 'select',
-      initial: 1,
+      initial: 2,
       message: `What's the type of release? (Current version: ${currentVersion})`,
       choices: [
-        { name: majorVersion, message: `Major (${majorVersion})` },
-        { name: minorVersion, message: `Minor (${minorVersion})` },
+        { name: currentVersion, message: `Same  (${currentVersion})` },
         { name: patchVersion, message: `Patch (${patchVersion})` },
+        { name: minorVersion, message: `Minor (${minorVersion})` },
+        { name: majorVersion, message: `Major (${majorVersion})` },
       ],
     },
   ]);
@@ -73,7 +74,9 @@ function createZipFile(newVersion) {
   if (!fs.existsSync(path.resolve(__dirname, '../releases'))) {
     fs.mkdirSync(path.resolve(__dirname, '../releases'));
   }
-  execSync(`zip -r ./releases/photo-maniac-${newVersion}.zip ./dist`);
+  const zipFile = `./releases/photo-maniac-${newVersion}.zip`;
+  execSync(`zip -r ${zipFile} ./dist`);
+  execSync(`open -R ${zipFile}`);
 }
 
 main();
