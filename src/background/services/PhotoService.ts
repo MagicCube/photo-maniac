@@ -1,11 +1,10 @@
 import { MessageService } from '@/messaging';
+import { queryPhotos } from '@/graphql/queries';
 import { StorageService } from '@/storage';
 import type { Photo } from '@/types';
 import { getCategoryName } from '@/util/category';
 import { getFeatureName } from '@/util/feature';
 import { shuffle } from '@/util/shuffle';
-
-import { queryPhotos } from '../queries';
 
 import { PrefetchService } from './PrefetchService';
 
