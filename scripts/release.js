@@ -26,39 +26,21 @@ async function main() {
       ],
     },
   ]);
-  updateVersion(releaseVersion);
+  updateVersion(releaseVersion, '../package.json');
+  updateVersion(releaseVersion, '../src/manifest.json');
   createZipFile(releaseVersion);
 }
 
-function updateVersion(newVersion) {
-  updateVersionOfPackageJSON(newVersion);
-  updateVersionOfManifestJSON(newVersion);
-}
-
-function updateVersionOfPackageJSON(newVersion) {
-  const packageJSON = JSON.parse(
-    fs.readFileSync(path.resolve(__dirname, '../package.json'), 'utf8')
+function updateVersion(newVersion, relPath) {
+  const json = JSON.parse(
+    fs.readFileSync(path.resolve(__dirname, relPath), 'utf8')
   );
-  packageJSON.version = newVersion;
+  json.version = newVersion;
   fs.writeFileSync(
-    path.resolve(__dirname, '../package.json'),
-    JSON.stringify(packageJSON, null, 2),
+    path.resolve(__dirname, relPath),
+    JSON.stringify(json, null, 2) + '\n',
     'utf8'
   );
-  console.info(`Updated package.json and manifest.json to ${newVersion}`);
-}
-
-function updateVersionOfManifestJSON(newVersion) {
-  const manifestJSON = JSON.parse(
-    fs.readFileSync(path.resolve(__dirname, '../src/manifest.json'), 'utf8')
-  );
-  manifestJSON.version = newVersion;
-  fs.writeFileSync(
-    path.resolve(__dirname, '../src/manifest.json'),
-    JSON.stringify(manifestJSON, null, 2),
-    'utf8'
-  );
-  console.info(`Updated manifest.json to ${newVersion}`);
 }
 
 function updateGit() {
