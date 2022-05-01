@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { CategorySelector } from '../CategorySelector';
 import { FeatureSelector } from '../FeatureSelector';
@@ -34,17 +34,26 @@ export function MainMenu({
   useEffect(() => {
     setCategories(categoriesFromProp);
   }, [categoriesFromProp]);
-  const handleIconClick = () => {
+  const handleNavigateHome = useCallback(() => {
+    setPage('home');
+  }, []);
+  const handleIconClick = useCallback(() => {
     setActive(!active);
-  };
-  const handleFeatureChanged = (value: string) => {
-    setFeature(value);
-    onFeatureChange(value);
-  };
-  const handleCategoryChanged = (values: number[]) => {
-    setCategories(values);
-    onCategoriesChange(values);
-  };
+  }, [active]);
+  const handleFeatureChanged = useCallback(
+    (value: string) => {
+      setFeature(value);
+      onFeatureChange(value);
+    },
+    [onFeatureChange]
+  );
+  const handleCategoryChanged = useCallback(
+    (values: number[]) => {
+      setCategories(values);
+      onCategoriesChange(values);
+    },
+    [onCategoriesChange]
+  );
   const handleShowRecentPhotos = () => {
     setPage('recent-photos');
   };
@@ -88,7 +97,7 @@ export function MainMenu({
             </footer>
           </div>
         ) : (
-          <RecentPhotosPage />
+          <RecentPhotosPage onNavigateHome={handleNavigateHome} />
         )}
       </div>
     </div>

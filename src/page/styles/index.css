@@ -41,10 +41,33 @@ h3 {
 a {
   color: var(--text-color);
   text-decoration: none;
+  cursor: pointer;
 }
 
 a:hover {
   text-decoration: underline;
+}
+
+.breadcrumbs {
+  display: flex;
+}
+
+.breadcrumbs a {
+  color: var(--text-color-on-white-background);
+}
+
+.breadcrumbs h3 {
+  font-weight: normal;
+}
+
+.breadcrumbs h3::before {
+  content: '>';
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.breadcrumbs h3:first-child:before {
+  display: none;
 }
 
 .hint {
@@ -200,7 +223,6 @@ a:hover {
 
 .pm-main-menu-dropdown footer a {
   color: var(--primary-color);
-  cursor: pointer;
 }
 
 .pm-main-menu-dropdown footer .left {

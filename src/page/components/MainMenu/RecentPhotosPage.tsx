@@ -3,7 +3,11 @@ import { useEffect, useState } from 'react';
 import { StorageService } from '@/storage';
 import type { Photo } from '@/types';
 
-export function RecentPhotosPage() {
+export interface RecentPhotosPage {
+  onNavigateHome: () => void;
+}
+
+export function RecentPhotosPage({ onNavigateHome }: RecentPhotosPage) {
   const [photos, setPhotos] = useState<Photo[]>(
     StorageService.data.recentPhotos
   );
@@ -13,15 +17,20 @@ export function RecentPhotosPage() {
     });
   }, []);
   return (
-    <div>
+    <div className="page">
       <header>
-        <h3>Recent Photos</h3>
+        <div className="breadcrumbs">
+          <h3>
+            <a onClick={onNavigateHome}>Home</a>
+          </h3>
+          <h3>Recent Photos</h3>
+        </div>
       </header>
       <main>
         {photos.length > 1 ? (
           <ul className="pm-photo-list">
             {photos.map((photo, i) =>
-              i > 0 && i < 10 ? (
+              i > 0 && i < 4 * 3 + 1 ? (
                 <li key={photo.id}>
                   <a
                     style={{
