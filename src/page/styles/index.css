@@ -61,6 +61,10 @@ a:hover {
   color: white;
 }
 
+.button.primary:disabled {
+  background: #999;
+}
+
 .button.large {
   font-size: larger;
 }

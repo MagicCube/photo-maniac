@@ -14,6 +14,7 @@ export function App() {
   const [categories, setCategories] = useState<number[]>([]);
   const [photo, setPhoto] = useState<Photo | null>(null);
   const [fallback, setFallback] = useState(false);
+  const [isUpdating, setUpdating] = useState(false);
   const update = useCallback(() => {
     StorageService.update().then(() => {
       const photo = StorageService.data.nextPhoto;
@@ -34,7 +35,10 @@ export function App() {
     console.info(fallbackPhoto);
   }, [fallback]);
   useEffect(() => {
-    MessageService.subscribe('photomaniac.events.photosUpdated', update);
+    MessageService.subscribe('photomaniac.events.photosUpdated', () => {
+      update();
+      setUpdating(false);
+    });
     setFeature(StorageService.data.feature);
     setCategories(StorageService.data.categories);
     if (navigator.onLine) {
@@ -52,6 +56,7 @@ export function App() {
     StorageService.saveCategories(values);
   }, []);
   const handleUpdate = useCallback(() => {
+    setUpdating(true);
     MessageService.publish('photomaniac.commands.updatePhotos');
   }, []);
   const handleError = useCallback(() => {
@@ -66,6 +71,7 @@ export function App() {
         <MainMenu
           feature={feature}
           categories={categories}
+          isUpdating={isUpdating}
           onFeatureChange={handleFeatureChange}
           onCategoriesChange={handleCategoriesChange}
           onUpdateClick={handleUpdate}

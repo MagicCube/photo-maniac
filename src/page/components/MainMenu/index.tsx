@@ -9,6 +9,7 @@ import { MainMenuIcon } from './MainMenuIcon';
 export interface MainMenuProps {
   feature: string;
   categories: number[];
+  isUpdating: boolean;
   onFeatureChange: (feature: string) => void;
   onCategoriesChange: (categories: number[]) => void;
   onUpdateClick: () => void;
@@ -17,9 +18,10 @@ export interface MainMenuProps {
 export function MainMenu({
   feature: featureFromProp,
   categories: categoriesFromProp,
+  isUpdating,
   onFeatureChange,
   onCategoriesChange,
-  onUpdateClick: onUpdate,
+  onUpdateClick,
 }: MainMenuProps) {
   const [active, setActive] = useState(false);
   const [feature, setFeature] = useState(featureFromProp);
@@ -61,11 +63,12 @@ export function MainMenu({
         <div>
           <button
             className="large primary button"
+            disabled={isUpdating}
             onClick={() => {
-              onUpdate();
+              onUpdateClick();
             }}
           >
-            Update Now
+            {isUpdating ? 'Updating...' : 'Update Now'}
           </button>
         </div>
       </div>
