@@ -20,7 +20,6 @@ class PhotoServiceImpl {
   };
 
   constructor() {
-    this._loadFromStorage();
     MessageService.subscribe('photomaniac.commands.nextPhoto', () => {
       this.prefetchNextPhoto();
     });
@@ -29,8 +28,9 @@ class PhotoServiceImpl {
     });
   }
 
-  start() {
-    this.updatePhotos();
+  async start() {
+    await this._loadFromStorage();
+    await this.updatePhotos();
     setInterval(() => {
       this.updatePhotos();
     }, 60 * 60 * 1000);
@@ -90,6 +90,7 @@ class PhotoServiceImpl {
     if (results) {
       this.photos.all = results.allPhotos;
       this.photos.stack = [...results.allPhotos];
+      this.photos.recent = results.recentPhotos;
       console.info(
         `${this.photos.all.length} photos loaded from local storage.`
       );

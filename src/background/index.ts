@@ -4,7 +4,7 @@ import { PhotoService } from './services';
 
 async function main() {
   await StorageService.update();
-  PhotoService.start();
+  await PhotoService.start();
 }
 
 main();
