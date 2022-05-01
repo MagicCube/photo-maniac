@@ -96,7 +96,7 @@ class StorageServiceImpl {
     if (localData.recentPhotos) {
       this._data.recentPhotos = localData.recentPhotos;
     } else if (this._data.nextPhoto) {
-      this._data.allPhotos = [this._data.nextPhoto];
+      this._data.recentPhotos = [this._data.nextPhoto];
     }
   }
 
