@@ -201,6 +201,7 @@ a:hover {
   color: var(--text-color-on-white-background);
   background: white;
   border: 1px solid #ccc;
+  border-radius: 8px;
   opacity: 0;
   transition: all 0.2s ease-in-out;
 }
@@ -351,4 +352,5 @@ a:hover {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+  border-radius: 4px;
 }
