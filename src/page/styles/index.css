@@ -7,6 +7,7 @@
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   --font-size: 14px;
   --font-size-h3: 18px;
+  --font-size-h4: 16px;
   --spacing: 24px;
   --spacing-small: 12px;
   --spacing-smallest: 4px;
@@ -36,7 +37,8 @@ body {
 
 h1,
 h2,
-h3 {
+h3,
+h4 {
   margin: 0;
 }
 
@@ -146,10 +148,10 @@ a:hover {
 
 .pm-photo-info {
   opacity: 0.75;
-  font-size: --font-size-h3;
 }
 
 .pm-photo-info-name {
+  font-size: var(--font-size-h4);
   font-weight: normal;
   opacity: 0.9;
   text-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
