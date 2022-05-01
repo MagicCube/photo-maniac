@@ -10,6 +10,25 @@ A Chrome extension presents you with stunning photos on the new tab page.
 
 * Information about the current photo
 
-* Customizable categories and features (including Editors' Choise, Popular and Upcoming)
+* Customizable categories and features (including Editors' Choice, Popular and Upcoming)
 
 * Offline supported
+
+## How to Install and Build
+
+```sh
+pnpm install
+pnpm build
+```
+
+## How to Develop
+
+```sh
+pnpm dev
+```
+
+## How to Release
+
+```sh
+pnpm release
+```
