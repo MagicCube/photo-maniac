@@ -50,24 +50,28 @@ a:hover {
 
 .breadcrumbs {
   display: flex;
+  align-items: center;
+  margin-bottom: var(--spacing-small);
 }
 
-.breadcrumbs a {
+.breadcrumbs > a,
+.breadcrumbs > span {
+  display: block;
+  padding: 0;
+  margin: 0;
   color: var(--text-color-on-white-background);
+  font-size: var(--font-size-h3);
 }
 
-.breadcrumbs h3 {
-  font-weight: normal;
-}
-
-.breadcrumbs h3::before {
-  content: '>';
+.breadcrumbs span::before {
+  content: '/';
+  opacity: 0.5;
   margin-left: 8px;
   margin-right: 8px;
 }
 
-.breadcrumbs h3:first-child:before {
-  display: none;
+.breadcrumbs span:last-child {
+  font-weight: bold;
 }
 
 .hint {

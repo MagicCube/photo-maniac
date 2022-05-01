@@ -20,10 +20,8 @@ export function RecentPhotosPage({ onNavigateHome }: RecentPhotosPage) {
     <div className="page">
       <header>
         <div className="breadcrumbs">
-          <h3>
-            <a onClick={onNavigateHome}>Home</a>
-          </h3>
-          <h3>Recent Photos</h3>
+          <a onClick={onNavigateHome}>Home</a>
+          <span>Recent Photos</span>
         </div>
       </header>
       <main>
