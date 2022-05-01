@@ -31,7 +31,7 @@ class PhotoServiceImpl {
     this.updatePhotos();
     setInterval(() => {
       this.updatePhotos();
-    }, 30 * 60 * 1000);
+    }, 60 * 60 * 1000);
   }
 
   async updatePhotos() {
