@@ -10,6 +10,8 @@
   --spacing: 24px;
   --spacing-small: 12px;
   --spacing-smallest: 4px;
+
+  --main-menu-width: 420px;
 }
 
 * {
@@ -193,7 +195,7 @@ a:hover {
 
 .pm-main-menu-dropdown {
   position: absolute;
-  width: 400px;
+  width: var(--main-menu-width);
   right: var(--spacing);
   padding: var(--spacing);
   color: var(--text-color-on-white-background);
@@ -334,9 +336,10 @@ a:hover {
 }
 
 .pm-photo-list li {
+  --size: calc((var(--main-menu-width) - var(--spacing) * 2 - 2px) / 3);
   display: flex;
-  width: 112px;
-  height: 112px;
+  width: var(--size);
+  height: var(--size);
   margin: 0;
   padding: 4px;
 }
