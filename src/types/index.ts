@@ -34,7 +34,6 @@ export interface PhotoSearchFilter {
 export interface Category {
   id: number;
   name: string;
-  localizedName: string;
 }
 
 export interface Feature {
