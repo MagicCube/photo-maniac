@@ -1,6 +1,8 @@
 import cn from 'classnames';
 import { useCallback, useEffect, useState } from 'react';
 
+import type { Photo } from '@/types';
+
 import { CategorySelector } from '../CategorySelector';
 import { FeatureSelector } from '../FeatureSelector';
 
@@ -13,6 +15,7 @@ export interface MainMenuProps {
   isUpdating: boolean;
   onFeatureChange: (feature: string) => void;
   onCategoriesChange: (categories: number[]) => void;
+  onPhotoSelect: (photo: Photo) => void;
   onUpdateClick: () => void;
 }
 
@@ -22,6 +25,7 @@ export function MainMenu({
   isUpdating,
   onFeatureChange,
   onCategoriesChange,
+  onPhotoSelect,
   onUpdateClick,
 }: MainMenuProps) {
   const [active, setActive] = useState(false);
@@ -97,7 +101,10 @@ export function MainMenu({
             </footer>
           </div>
         ) : (
-          <RecentPhotosPage onNavigateHome={handleNavigateHome} />
+          <RecentPhotosPage
+            onNavigateHome={handleNavigateHome}
+            onPhotoSelect={onPhotoSelect}
+          />
         )}
       </div>
     </div>

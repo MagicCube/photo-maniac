@@ -55,6 +55,10 @@ export function App() {
     setCategories(values);
     StorageService.saveCategories(values);
   }, []);
+  const handlePhotoSelect = useCallback((photo: Photo) => {
+    setPhoto(photo);
+    document.title = `New Tab${photo?.name && ` - ${photo.name}`}`;
+  }, []);
   const handleUpdate = useCallback(() => {
     setUpdating(true);
     MessageService.publish('photomaniac.commands.updatePhotos');
@@ -74,6 +78,7 @@ export function App() {
           isUpdating={isUpdating}
           onFeatureChange={handleFeatureChange}
           onCategoriesChange={handleCategoriesChange}
+          onPhotoSelect={handlePhotoSelect}
           onUpdateClick={handleUpdate}
         />
       </div>

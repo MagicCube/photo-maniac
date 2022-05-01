@@ -4,10 +4,14 @@ import { StorageService } from '@/storage';
 import type { Photo } from '@/types';
 
 export interface RecentPhotosPage {
+  onPhotoSelect: (photo: Photo) => void;
   onNavigateHome: () => void;
 }
 
-export function RecentPhotosPage({ onNavigateHome }: RecentPhotosPage) {
+export function RecentPhotosPage({
+  onPhotoSelect,
+  onNavigateHome,
+}: RecentPhotosPage) {
   const [photos, setPhotos] = useState<Photo[]>(
     StorageService.data.recentPhotos
   );
@@ -34,9 +38,7 @@ export function RecentPhotosPage({ onNavigateHome }: RecentPhotosPage) {
                     style={{
                       backgroundImage: `url(${photo.images[0].webpUrl})`,
                     }}
-                    target="_blank"
-                    rel="noreferrer"
-                    href={`https://500px.com/photo/${photo.legacyId}/`}
+                    onClick={() => onPhotoSelect(photo)}
                   />
                 </li>
               ) : null
