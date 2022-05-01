@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "PhotoManiac",
-  "version": "1.0",
-  "description": "Present you with spectacular images every time when you open a new tab.",
+  "version": "1.0.0",
+  "description": "Present spectacular images every time you open a new tab.",
   "author": "Henry Li",
   "permissions": ["storage"],
   "host_permissions": ["<all_urls>"],
