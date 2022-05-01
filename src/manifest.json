@@ -4,8 +4,12 @@
   "version": "1.0.0",
   "description": "Present spectacular images every time you open a new tab.",
   "author": "Henry Li",
-  "permissions": ["storage"],
-  "host_permissions": ["<all_urls>"],
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
   "background": {
     "service_worker": "background/index.ts"
   },
