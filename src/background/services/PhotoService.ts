@@ -12,9 +12,11 @@ class PhotoServiceImpl {
   readonly photos: {
     all: Photo[];
     stack: Photo[];
+    recent: Photo[];
   } = {
     all: [],
     stack: [],
+    recent: [],
   };
 
   constructor() {
@@ -71,6 +73,7 @@ class PhotoServiceImpl {
     }
     const nextPhoto = this.photos.stack.pop();
     if (nextPhoto) {
+      this._addToRecent(nextPhoto);
       await this._prefetchPhoto(nextPhoto);
     }
   }
@@ -95,8 +98,16 @@ class PhotoServiceImpl {
   }
 
   private async _saveToLocalStorage() {
-    StorageService.saveAllPhotos(this.photos.all);
+    await StorageService.saveAllPhotos(this.photos.all);
     console.info(`${this.photos.stack.length} photos saved to local storage.`);
+  }
+
+  private async _addToRecent(photo: Photo) {
+    this.photos.recent.splice(0, 0, photo);
+    while (this.photos.recent.length > 3 * 4 + 1) {
+      this.photos.recent.pop();
+    }
+    await StorageService.saveRecentPhotos(this.photos.recent);
   }
 
   private _shuffle() {

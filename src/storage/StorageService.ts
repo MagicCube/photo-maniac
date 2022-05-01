@@ -6,14 +6,18 @@ interface StoredData {
   feature: string;
   categories: number[];
   allPhotos: Photo[];
+  recentPhotos: Photo[];
   nextPhoto: Photo | null;
 }
 
+const TMP_NEXT_PHOTO =
+  CACHED_PHOTOS[Math.floor(Math.random() * CACHED_PHOTOS.length)];
 const DEFAULT_DATA: StoredData = {
   feature: 'editors',
   categories: [29, 13, 27, 30],
   allPhotos: shuffle(CACHED_PHOTOS),
-  nextPhoto: CACHED_PHOTOS[Math.floor(Math.random() * CACHED_PHOTOS.length)],
+  nextPhoto: TMP_NEXT_PHOTO,
+  recentPhotos: [TMP_NEXT_PHOTO],
 };
 
 class StorageServiceImpl {
@@ -38,6 +42,11 @@ class StorageServiceImpl {
   async saveAllPhotos(photos: Photo[]) {
     this._data.allPhotos = photos;
     await this._saveToStorage('allPhotos');
+  }
+
+  async saveRecentPhotos(photos: Photo[]) {
+    this._data.recentPhotos = photos;
+    await this._saveToStorage('recentPhotos');
   }
 
   async saveNextPhoto(photo: Photo) {
@@ -83,6 +92,11 @@ class StorageServiceImpl {
       this._data.nextPhoto = localData.nextPhoto;
     } else if (localData.allPhotos?.length) {
       this._data.nextPhoto = DEFAULT_DATA.nextPhoto;
+    }
+    if (localData.recentPhotos) {
+      this._data.recentPhotos = localData.recentPhotos;
+    } else if (this._data.nextPhoto) {
+      this._data.allPhotos = [this._data.nextPhoto];
     }
   }
 

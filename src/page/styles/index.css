@@ -47,6 +47,10 @@ a:hover {
   text-decoration: underline;
 }
 
+.hint {
+  color: gray;
+}
+
 .button {
   padding-left: 16px;
   padding-right: 16px;
@@ -189,6 +193,26 @@ a:hover {
   margin-bottom: 8px;
 }
 
+.pm-main-menu-dropdown footer {
+  display: flex;
+  width: 100%;
+}
+
+.pm-main-menu-dropdown footer a {
+  color: var(--primary-color);
+  cursor: pointer;
+}
+
+.pm-main-menu-dropdown footer .left {
+  display: flex;
+  flex-grow: 1;
+}
+
+.pm-main-menu-dropdown footer .right {
+  display: flex;
+  align-self: center;
+}
+
 .pm-category-selector {
   display: flex;
   flex-wrap: wrap;
@@ -256,14 +280,14 @@ a:hover {
 .pm-menu-icon {
   width: 24px;
   height: 24px;
-  opacity: 0.5;
+  opacity: 0.66;
   cursor: pointer;
   transition: opacity 0.2s ease-in-out;
 }
 
 .pm-menu-icon.active,
 .pm-menu-icon:hover {
-  opacity: 0.75;
+  opacity: 0.95;
 }
 
 .pm-menu-icon div {
@@ -273,4 +297,29 @@ a:hover {
   background: white;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
   border-radius: 8px;
+}
+
+.pm-photo-list {
+  display: flex;
+  list-style: none;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+}
+
+.pm-photo-list li {
+  display: flex;
+  width: 112px;
+  height: 112px;
+  margin: 0;
+  padding: 4px;
+}
+
+.pm-photo-list li a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }

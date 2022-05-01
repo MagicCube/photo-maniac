@@ -5,6 +5,7 @@ import { CategorySelector } from '../CategorySelector';
 import { FeatureSelector } from '../FeatureSelector';
 
 import { MainMenuIcon } from './MainMenuIcon';
+import { RecentPhotosPage } from './RecentPhotosPage';
 
 export interface MainMenuProps {
   feature: string;
@@ -26,6 +27,7 @@ export function MainMenu({
   const [active, setActive] = useState(false);
   const [feature, setFeature] = useState(featureFromProp);
   const [categories, setCategories] = useState<number[]>(categoriesFromProp);
+  const [page, setPage] = useState<string>('home');
   useEffect(() => {
     setFeature(featureFromProp);
   }, [featureFromProp]);
@@ -43,34 +45,51 @@ export function MainMenu({
     setCategories(values);
     onCategoriesChange(values);
   };
+  const handleShowRecentPhotos = () => {
+    setPage('recent-photos');
+  };
   return (
     <div className="pm-main-menu">
       <div>
         <MainMenuIcon active={active} onClick={handleIconClick} />
       </div>
       <div className={cn('pm-main-menu-dropdown', active && 'active')}>
-        <section>
-          <h3>Features</h3>
-          <FeatureSelector value={feature} onChange={handleFeatureChanged} />
-        </section>
-        <section>
-          <h3>Categories</h3>
-          <CategorySelector
-            values={categories}
-            onChange={handleCategoryChanged}
-          />
-        </section>
-        <div>
-          <button
-            className="large primary button"
-            disabled={isUpdating}
-            onClick={() => {
-              onUpdateClick();
-            }}
-          >
-            {isUpdating ? 'Updating...' : 'Update Now'}
-          </button>
-        </div>
+        {page === 'home' ? (
+          <div>
+            <section>
+              <h3>Features</h3>
+              <FeatureSelector
+                value={feature}
+                onChange={handleFeatureChanged}
+              />
+            </section>
+            <section>
+              <h3>Categories</h3>
+              <CategorySelector
+                values={categories}
+                onChange={handleCategoryChanged}
+              />
+            </section>
+            <footer>
+              <div className="left">
+                <button
+                  className="large primary button"
+                  disabled={isUpdating}
+                  onClick={() => {
+                    onUpdateClick();
+                  }}
+                >
+                  {isUpdating ? 'Updating...' : 'Update Now'}
+                </button>
+              </div>
+              <div className="right">
+                <a onClick={handleShowRecentPhotos}>Show recent photos</a>
+              </div>
+            </footer>
+          </div>
+        ) : (
+          <RecentPhotosPage />
+        )}
       </div>
     </div>
   );
