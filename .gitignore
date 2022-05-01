@@ -4,8 +4,9 @@
 # Node.js
 node_modules
 
-# Distribution
+# Distribution & Release
 dist
+releases
 
 # Todo
 TODO.md
