@@ -1,7 +1,6 @@
 import { StorageService } from '@/storage';
-import './PrefetchService';
 
-import { PhotoService } from './PhotoService';
+import { PhotoService } from './services';
 
 async function main() {
   await StorageService.update();

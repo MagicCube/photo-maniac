@@ -4,9 +4,10 @@ import type { Photo } from '@/types';
 import { getCategoryName } from '@/util/category';
 import { getFeatureName } from '@/util/feature';
 import { shuffle } from '@/util/shuffle';
-import { PrefetchService } from './PrefetchService';
 
-import { queryPhotos } from './queries';
+import { queryPhotos } from '../queries';
+
+import { PrefetchService } from './PrefetchService';
 
 class PhotoServiceImpl {
   readonly photos: {
