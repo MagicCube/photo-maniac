@@ -52,6 +52,10 @@ a:hover {
   text-decoration: underline;
 }
 
+label {
+  cursor: pointer;
+}
+
 .breadcrumbs {
   display: flex;
   align-items: center;
