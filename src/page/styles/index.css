@@ -56,6 +56,10 @@ label {
   cursor: pointer;
 }
 
+input[type='checkbox'] {
+  cursor: pointer;
+}
+
 .breadcrumbs {
   display: flex;
   align-items: center;
@@ -272,6 +276,11 @@ label {
   padding: 0;
 }
 
+.pm-category-selector label {
+  display: block;
+  padding-left: var(--spacing-smallest);
+}
+
 .pm-category-selector li.active label,
 .pm-category-selector li:hover label {
   color: var(--primary-color);
@@ -280,7 +289,6 @@ label {
 .pm-category-selector input[type='checkbox'] {
   width: 20px;
   height: 20px;
-  margin-right: var(--spacing-small);
 }
 
 .pm-feature-selector {
