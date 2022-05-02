@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "npm run lint && vite build",
-    "release": "node scripts/release.js",
+    "release": "npm run build && node scripts/release.js",
     "release:git": "node scripts/release:git.js",
     "lint": "eslint ./src"
   },
