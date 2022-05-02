@@ -32,7 +32,7 @@ export function RecentPhotosPage({
         {photos.length > 1 ? (
           <ul className="pm-photo-list">
             {photos.map((photo, i) =>
-              i > 0 && i < 4 * 3 + 1 ? (
+              i > 0 && i < 3 * 4 + 1 ? (
                 <li key={photo.id}>
                   <a
                     style={{
