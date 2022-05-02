@@ -13,7 +13,7 @@ function main() {
   execSync(
     `git tag "Release ${newVersion} (${new Date()
       .toUTCString()
-      .substring(5, 16)}")`
+      .substring(5, 16)})"`
   );
   execSync(`git push`);
   execSync(`git push --tags`);
