@@ -77,6 +77,12 @@ export function MainMenu({
     },
     [onCategoriesChange]
   );
+  useEffect(() => {
+    if (localStorage['pm.firstRun'] !== 'false') {
+      localStorage['pm.firstRun'] = 'false';
+      handleIconClick();
+    }
+  }, [handleIconClick]);
   const handleShowRecentPhotos = () => {
     setPage('recent-photos');
   };
