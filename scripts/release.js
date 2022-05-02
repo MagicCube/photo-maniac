@@ -43,15 +43,6 @@ function updateVersion(newVersion, relPath) {
   );
 }
 
-function updateGit() {
-  execSync(`git add package.json`);
-  execSync(`git add ./src/manifest.json`);
-  execSync(`git commit -m "Release v${newVersion}"`);
-  execSync(`git tag v${newVersion}`);
-  execSync(`git push`);
-  execSync(`git push --tags`);
-}
-
 function createZipFile(newVersion) {
   if (!fs.existsSync(path.resolve(__dirname, '../releases'))) {
     fs.mkdirSync(path.resolve(__dirname, '../releases'));
