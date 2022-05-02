@@ -10,11 +10,7 @@ function main() {
   execSync(`git add package.json`);
   execSync(`git add ./src/manifest.json`);
   execSync(`git commit -m "chore: release ${newVersion}"`);
-  execSync(
-    `git tag "Release ${newVersion} (${new Date()
-      .toUTCString()
-      .substring(5, 16)})"`
-  );
+  execSync(`git tag "${newVersion}"`);
   execSync(`git push`);
   execSync(`git push --tags`);
 }
