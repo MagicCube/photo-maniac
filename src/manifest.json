@@ -1,14 +1,15 @@
 {
   "manifest_version": 3,
   "name": "PhotoManiac",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Present spectacular photos every time you open a new tab.",
   "author": "Henry Li",
   "permissions": [
     "storage"
   ],
   "host_permissions": [
-    "<all_urls>"
+    "https://api.500px.com/",
+    "https://drscdn.500px.org/"
   ],
   "background": {
     "service_worker": "background/index.ts"
