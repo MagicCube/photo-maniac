@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "dev": "vite",
-    "build": "npm run lint && vite build",
-    "release": "npm run build && node scripts/release.js",
-    "release:git": "node scripts/release:git.js",
-    "lint": "eslint ./src"
+    "build": "npm run lint && vite build && rm -rf ./dist/cached-data",
+    "lint": "eslint ./src",
+    "release": "npm run build && npm run release:pack && npm run release:git",
+    "release:pack": "node scripts/release:pack.js",
+    "release:git": "node scripts/release:git.js"
   },
   "keywords": [],
   "author": "",
