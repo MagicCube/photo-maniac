@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import type { Photo } from '@/types';
 
@@ -38,12 +38,31 @@ export function MainMenu({
   useEffect(() => {
     setCategories(categoriesFromProp);
   }, [categoriesFromProp]);
+  const mainMenuDropdownRef = useRef<HTMLDivElement>(null);
   const handleNavigateHome = useCallback(() => {
     setPage('home');
   }, []);
+  const handleBodyClick = useCallback(function (
+    this: HTMLElement,
+    e: MouseEvent
+  ) {
+    if (
+      mainMenuDropdownRef.current &&
+      !mainMenuDropdownRef.current.contains(e.target as Node)
+    ) {
+      setActive(false);
+      document.body.removeEventListener('click', handleBodyClick, true);
+    }
+  },
+  []);
   const handleIconClick = useCallback(() => {
-    setActive(!active);
-  }, [active]);
+    const newActiveState = !active;
+    setActive(newActiveState);
+    if (newActiveState) {
+      setPage('home');
+      document.body.addEventListener('click', handleBodyClick, true);
+    }
+  }, [active, handleBodyClick]);
   const handleFeatureChanged = useCallback(
     (value: string) => {
       setFeature(value);
@@ -66,7 +85,10 @@ export function MainMenu({
       <div>
         <MainMenuIcon active={active} onClick={handleIconClick} />
       </div>
-      <div className={cn('pm-main-menu-dropdown', active && 'active')}>
+      <div
+        ref={mainMenuDropdownRef}
+        className={cn('pm-main-menu-dropdown', active && 'active')}
+      >
         {page === 'home' ? (
           <div>
             <section>
