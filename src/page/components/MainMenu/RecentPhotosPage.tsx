@@ -5,13 +5,9 @@ import type { Photo } from '@/types';
 
 export interface RecentPhotosPage {
   onPhotoSelect: (photo: Photo) => void;
-  onNavigateHome: () => void;
 }
 
-export function RecentPhotosPage({
-  onPhotoSelect,
-  onNavigateHome,
-}: RecentPhotosPage) {
+export function RecentPhotosPage({ onPhotoSelect }: RecentPhotosPage) {
   const [photos, setPhotos] = useState<Photo[]>(
     StorageService.data.recentPhotos
   );
@@ -23,10 +19,7 @@ export function RecentPhotosPage({
   return (
     <div className="page">
       <header>
-        <div className="breadcrumbs">
-          <a onClick={onNavigateHome}>Home</a>
-          <span>Recent Photos</span>
-        </div>
+        <h3>Recent Photos</h3>
       </header>
       <main>
         {photos.length > 1 ? (

@@ -60,32 +60,6 @@ input[type='checkbox'] {
   cursor: pointer;
 }
 
-.breadcrumbs {
-  display: flex;
-  align-items: center;
-  margin-bottom: var(--spacing-small);
-}
-
-.breadcrumbs > a,
-.breadcrumbs > span {
-  display: block;
-  padding: 0;
-  margin: 0;
-  color: var(--text-color-on-white-background);
-  font-size: var(--font-size-h3);
-}
-
-.breadcrumbs span::before {
-  content: '/';
-  opacity: 0.5;
-  margin-left: 8px;
-  margin-right: 8px;
-}
-
-.breadcrumbs span:last-child {
-  font-weight: bold;
-}
-
 .hint {
   color: gray;
 }
@@ -214,6 +188,7 @@ input[type='checkbox'] {
 .pm-main-menu-dropdown {
   position: absolute;
   width: var(--main-menu-width);
+  top: calc(var(--spacing) + 24px + var(--spacing-smallest));
   right: var(--spacing);
   padding: var(--spacing);
   color: var(--text-color-on-white-background);
@@ -226,6 +201,10 @@ input[type='checkbox'] {
   transform-origin: top right;
   transition: all 0.1s ease-in-out;
   box-shadow: 0 0 32px rgba(0, 0, 0, 0.25);
+}
+
+.pm-main-menu-dropdown.gallery {
+  right: calc(var(--spacing) + var(--spacing-smallest) + 40px);
 }
 
 .pm-main-menu-dropdown.active {
@@ -333,26 +312,58 @@ input[type='checkbox'] {
   border-radius: 0 8px 8px 0;
 }
 
-.pm-menu-icon {
+.pm-icons {
+  display: flex;
+  margin-right: var(--spacing-small);
+}
+
+.pm-icons div {
+  margin-left: var(--spacing-small);
+}
+
+.pm-icon-menu,
+.pm-icon-gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
   width: 24px;
   height: 24px;
-  opacity: 0.66;
+  opacity: 0.5;
   cursor: pointer;
   transition: opacity 0.2s ease-in-out;
 }
 
-.pm-menu-icon.active,
-.pm-menu-icon:hover {
+.pm-icon-menu.active,
+.pm-icon-menu:hover,
+.pm-icon-gallery.active,
+.pm-icon-gallery:hover {
   opacity: 0.95;
 }
 
-.pm-menu-icon div {
+.pm-icon-menu div {
   width: 100%;
   height: 3px;
   margin-bottom: 5px;
   background: white;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
   border-radius: 8px;
+}
+
+.pm-icon-gallery {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.pm-icon-gallery div {
+  width: 10px;
+  height: 10px;
+  margin-left: 2px;
+  margin-bottom: 2px;
+  border: 2px solid white;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
 }
 
 .pm-photo-list {

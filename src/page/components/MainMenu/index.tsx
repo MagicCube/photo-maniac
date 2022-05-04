@@ -6,7 +6,7 @@ import type { Photo } from '@/types';
 import { CategorySelector } from '../CategorySelector';
 import { FeatureSelector } from '../FeatureSelector';
 
-import { MainMenuIcon } from './MainMenuIcon';
+import { GalleryMenuIcon, MainMenuIcon } from './icons';
 import { RecentPhotosPage } from './RecentPhotosPage';
 
 export interface MainMenuProps {
@@ -28,10 +28,10 @@ export function MainMenu({
   onPhotoSelect,
   onUpdateClick,
 }: MainMenuProps) {
-  const [active, setActive] = useState(false);
+  const [mainMenuActive, setMainMenuActive] = useState(false);
+  const [galleryActive, setGalleryActive] = useState(false);
   const [feature, setFeature] = useState(featureFromProp);
   const [categories, setCategories] = useState<number[]>(categoriesFromProp);
-  const [page, setPage] = useState<string>('home');
   useEffect(() => {
     setFeature(featureFromProp);
   }, [featureFromProp]);
@@ -39,9 +39,6 @@ export function MainMenu({
     setCategories(categoriesFromProp);
   }, [categoriesFromProp]);
   const mainMenuDropdownRef = useRef<HTMLDivElement>(null);
-  const handleNavigateHome = useCallback(() => {
-    setPage('home');
-  }, []);
   const handleBodyClick = useCallback(function (
     this: HTMLElement,
     e: MouseEvent
@@ -50,19 +47,28 @@ export function MainMenu({
       mainMenuDropdownRef.current &&
       !mainMenuDropdownRef.current.contains(e.target as Node)
     ) {
-      setActive(false);
+      setMainMenuActive(false);
+      setGalleryActive(false);
       document.body.removeEventListener('click', handleBodyClick, true);
     }
   },
   []);
-  const handleIconClick = useCallback(() => {
-    const newActiveState = !active;
-    setActive(newActiveState);
+  const handleMainMenuClick = useCallback(() => {
+    const newActiveState = !mainMenuActive;
+    setMainMenuActive(newActiveState);
     if (newActiveState) {
-      setPage('home');
+      setGalleryActive(false);
       document.body.addEventListener('click', handleBodyClick, true);
     }
-  }, [active, handleBodyClick]);
+  }, [mainMenuActive, handleBodyClick]);
+  const handleGalleryClick = useCallback(() => {
+    const newActiveState = !galleryActive;
+    setGalleryActive(newActiveState);
+    if (newActiveState) {
+      setMainMenuActive(false);
+      document.body.addEventListener('click', handleBodyClick, true);
+    }
+  }, [galleryActive, handleBodyClick]);
   const handleFeatureChanged = useCallback(
     (value: string) => {
       setFeature(value);
@@ -80,22 +86,24 @@ export function MainMenu({
   useEffect(() => {
     if (localStorage['pm.firstRun'] !== 'false') {
       localStorage['pm.firstRun'] = 'false';
-      handleIconClick();
+      handleMainMenuClick();
     }
-  }, [handleIconClick]);
-  const handleShowRecentPhotos = () => {
-    setPage('recent-photos');
-  };
+  }, [handleMainMenuClick]);
   return (
     <div className="pm-main-menu">
-      <div>
-        <MainMenuIcon active={active} onClick={handleIconClick} />
+      <div className="pm-icons">
+        <GalleryMenuIcon active={galleryActive} onClick={handleGalleryClick} />
+        <MainMenuIcon active={mainMenuActive} onClick={handleMainMenuClick} />
       </div>
       <div
         ref={mainMenuDropdownRef}
-        className={cn('pm-main-menu-dropdown', active && 'active')}
+        className={cn(
+          'pm-main-menu-dropdown',
+          (mainMenuActive || galleryActive) && 'active',
+          galleryActive && 'gallery'
+        )}
       >
-        {page === 'home' ? (
+        {mainMenuActive ? (
           <div>
             <section>
               <h3>Features</h3>
@@ -123,16 +131,10 @@ export function MainMenu({
                   {isUpdating ? 'Updating...' : 'Update Now'}
                 </button>
               </div>
-              <div className="right">
-                <a onClick={handleShowRecentPhotos}>Show recent photos</a>
-              </div>
             </footer>
           </div>
         ) : (
-          <RecentPhotosPage
-            onNavigateHome={handleNavigateHome}
-            onPhotoSelect={onPhotoSelect}
-          />
+          <RecentPhotosPage onPhotoSelect={onPhotoSelect} />
         )}
       </div>
     </div>
