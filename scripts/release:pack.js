@@ -28,6 +28,7 @@ async function main() {
   ]);
   updateVersion(releaseVersion, '../package.json');
   updateVersion(releaseVersion, '../src/manifest.json');
+  build();
   createZipFile(releaseVersion);
 }
 
@@ -41,6 +42,10 @@ function updateVersion(newVersion, relPath) {
     JSON.stringify(json, null, 2) + '\n',
     'utf8'
   );
+}
+
+function build() {
+  execSync('npm run build');
 }
 
 function createZipFile(newVersion) {
