@@ -29,7 +29,7 @@ export function MainMenu({
   onUpdateClick,
 }: MainMenuProps) {
   const [mainMenuActive, setMainMenuActive] = useState(false);
-  const [galleryActive, setGalleryActive] = useState(false);
+  const [recentPhotosActive, setGalleryActive] = useState(false);
   const [feature, setFeature] = useState(featureFromProp);
   const [categories, setCategories] = useState<number[]>(categoriesFromProp);
   useEffect(() => {
@@ -62,13 +62,13 @@ export function MainMenu({
     }
   }, [mainMenuActive, handleBodyClick]);
   const handleGalleryClick = useCallback(() => {
-    const newActiveState = !galleryActive;
+    const newActiveState = !recentPhotosActive;
     setGalleryActive(newActiveState);
     if (newActiveState) {
       setMainMenuActive(false);
       document.body.addEventListener('click', handleBodyClick, true);
     }
-  }, [galleryActive, handleBodyClick]);
+  }, [recentPhotosActive, handleBodyClick]);
   const handleFeatureChanged = useCallback(
     (value: string) => {
       setFeature(value);
@@ -92,15 +92,18 @@ export function MainMenu({
   return (
     <div className="pm-main-menu">
       <div className="pm-icons">
-        <GalleryMenuIcon active={galleryActive} onClick={handleGalleryClick} />
+        <GalleryMenuIcon
+          active={recentPhotosActive}
+          onClick={handleGalleryClick}
+        />
         <MainMenuIcon active={mainMenuActive} onClick={handleMainMenuClick} />
       </div>
       <div
         ref={mainMenuDropdownRef}
         className={cn(
           'pm-main-menu-dropdown',
-          (mainMenuActive || galleryActive) && 'active',
-          galleryActive && 'gallery'
+          (mainMenuActive || recentPhotosActive) && 'active',
+          recentPhotosActive && 'gallery'
         )}
       >
         {mainMenuActive ? (
@@ -133,9 +136,9 @@ export function MainMenu({
               </div>
             </footer>
           </div>
-        ) : (
+        ) : recentPhotosActive ? (
           <RecentPhotosPage onPhotoSelect={onPhotoSelect} />
-        )}
+        ) : null}
       </div>
     </div>
   );

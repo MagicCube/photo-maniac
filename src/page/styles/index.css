@@ -189,7 +189,7 @@ input[type='checkbox'] {
   position: absolute;
   width: var(--main-menu-width);
   top: calc(var(--spacing) + 24px + var(--spacing-smallest));
-  right: var(--spacing);
+  right: calc(var(--spacing) + 5px);
   padding: var(--spacing);
   color: var(--text-color-on-white-background);
   background: white;
@@ -204,7 +204,7 @@ input[type='checkbox'] {
 }
 
 .pm-main-menu-dropdown.gallery {
-  right: calc(var(--spacing) + var(--spacing-smallest) + 40px);
+  right: calc(var(--spacing) + var(--spacing-smallest) + 43px);
 }
 
 .pm-main-menu-dropdown.active {
