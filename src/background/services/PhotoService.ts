@@ -24,7 +24,7 @@ class PhotoServiceImpl {
       this.prefetchNextPhoto();
     });
     MessageService.subscribe('photomaniac.commands.updatePhotos', () => {
-      this.updatePhotos();
+      this.updatePhotos({ initiatedByCommand: true });
     });
   }
 
@@ -36,7 +36,7 @@ class PhotoServiceImpl {
     }, 60 * 60 * 1000);
   }
 
-  async updatePhotos() {
+  async updatePhotos(options: { initiatedByCommand?: boolean } = {}) {
     await StorageService.update();
     const feature = StorageService.data.feature;
     const categories = StorageService.data.categories;
@@ -64,7 +64,9 @@ class PhotoServiceImpl {
       `${filteredPhotos.length}/${photosFromServer.length} photos updated from 500px.`
     );
     await this.prefetchNextPhoto();
-    MessageService.publish('photomaniac.events.photosUpdated');
+    if (options.initiatedByCommand) {
+      MessageService.publish('photomaniac.events.photosUpdated');
+    }
   }
 
   async prefetchNextPhoto() {
