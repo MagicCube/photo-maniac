@@ -342,7 +342,12 @@ input[type='checkbox'] {
   opacity: 0.95;
 }
 
+.pm-icon-menu {
+  padding-top: 2px;
+}
+
 .pm-icon-menu div {
+  flex-shrink: 0;
   width: 100%;
   height: 3px;
   margin-bottom: 5px;
