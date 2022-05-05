@@ -1,35 +1,13 @@
-import { useCallback, useEffect } from 'react';
-
 import type { Photo } from '@/types';
 import { formatCategoryName } from '@/util/category';
+import { useShortcutKeys } from '@/page/app/shortcut-keys';
 
 export interface PhotoInfoProps {
   data: Photo | null;
 }
 
 export function PhotoInfo({ data }: PhotoInfoProps) {
-  const handleKeydown = useCallback(
-    (event: KeyboardEvent) => {
-      if (
-        event.key.toLowerCase() === 'v' &&
-        !event.metaKey &&
-        !event.ctrlKey &&
-        !event.altKey &&
-        !event.shiftKey &&
-        data?.legacyId
-      ) {
-        event.preventDefault();
-        window.open(`https://500px.com/photo/${data.legacyId}/`);
-      }
-    },
-    [data]
-  );
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeydown, true);
-    return () => {
-      window.removeEventListener('keydown', handleKeydown, true);
-    };
-  }, [handleKeydown]);
+  useShortcutKeys({ photo: data });
   if (data) {
     const locationURL = new URL(`https://www.google.com/maps/search/?q=`);
     if (data.location) {

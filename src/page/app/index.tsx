@@ -24,27 +24,16 @@ export function App() {
     document.title = `New Tab${photo?.name && ` - ${photo.name}`}`;
     console.info(`Photo${photo?.name && ` - ${photo.name}`}`, photo);
   }, []);
-  const addToRecent = useCallback(async (photo: Photo) => {
-    await StorageService.update();
-    const recentPhotos = StorageService.data.recentPhotos;
-    if (recentPhotos.find((p) => p.id === photo.id)) {
-      return;
-    }
-    recentPhotos.unshift(photo);
-    while (recentPhotos.length > 12) {
-      recentPhotos.pop();
-    }
-    await StorageService.saveRecentPhotos(recentPhotos);
-  }, []);
+
   const update = useCallback(async () => {
     await StorageService.update();
     const photo = StorageService.data.nextPhoto;
     if (photo) {
       changePhoto(photo);
-      addToRecent(photo);
+      await StorageService.addToRecent(photo);
       MessageService.publish('photomaniac.commands.nextPhoto');
     }
-  }, [addToRecent, changePhoto]);
+  }, [changePhoto]);
   const fallbackToNextPhoto = useCallback(() => {
     if (fallback) {
       return;
