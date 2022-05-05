@@ -8,23 +8,19 @@ class PrefetchServiceImpl {
   }
 
   async resolve(url: string) {
-    return caches.open(CACHE_NAME).then((cache) => {
-      return cache.match(url).then((cachedResponse) => {
-        if (cachedResponse) {
-          console.info('Cached request', url);
-        }
-        return cachedResponse?.clone() || fetch(url);
-      });
-    });
+    const cache = await caches.open(CACHE_NAME);
+    const cachedResponse = await cache.match(url);
+    if (cachedResponse) {
+      console.info('Cached request', url);
+    }
+    return cachedResponse?.clone() || fetch(url);
   }
 
-  prefetch(url: string) {
-    return caches.open(CACHE_NAME).then((cache) => {
-      return fetch(url).then((response) => {
-        cache.put(url, response);
-        return response;
-      });
-    });
+  async prefetch(url: string) {
+    const cache = await caches.open(CACHE_NAME);
+    const response = await fetch(url);
+    await cache.put(url, response);
+    return response;
   }
 }
 

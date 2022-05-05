@@ -13,6 +13,7 @@ export function RecentPhotosPage({ onPhotoSelect }: RecentPhotosPage) {
   );
   useEffect(() => {
     StorageService.update().then(() => {
+      console.info('RecentPhotosPage: useEffect', StorageService.data);
       setPhotos(StorageService.data.recentPhotos);
     });
   }, []);
@@ -22,20 +23,18 @@ export function RecentPhotosPage({ onPhotoSelect }: RecentPhotosPage) {
         <h3>Recent Photos</h3>
       </header>
       <main>
-        {photos.length > 1 ? (
+        {photos.length > 0 ? (
           <ul className="pm-photo-list">
-            {photos.map((photo, i) =>
-              i > 0 && i < 3 * 4 + 1 ? (
-                <li key={photo.id}>
-                  <a
-                    style={{
-                      backgroundImage: `url(${photo.images[0].webpUrl})`,
-                    }}
-                    onClick={() => onPhotoSelect(photo)}
-                  />
-                </li>
-              ) : null
-            )}
+            {photos.map((photo) => (
+              <li key={photo.id}>
+                <a
+                  style={{
+                    backgroundImage: `url(${photo.images[0].webpUrl})`,
+                  }}
+                  onClick={() => onPhotoSelect(photo)}
+                />
+              </li>
+            ))}
           </ul>
         ) : (
           <div className="hint">Hoops, seems like no photo here.</div>
