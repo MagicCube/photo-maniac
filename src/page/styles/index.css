@@ -91,6 +91,23 @@ input[type='checkbox'] {
   height: 100%;
 }
 
+.pm-message {
+  position: fixed;
+  z-index: 99;
+  top: var(--spacing-small);
+  left: 50%;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  transform: translateX(-50%);
+  transition: all 0.2s ease-in-out;
+  opacity: 0;
+}
+
+.pm-message.active {
+  opacity: 1;
+}
+
 .pm-500px-logo {
   position: fixed;
   width: 80px;

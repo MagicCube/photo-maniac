@@ -13,6 +13,8 @@ import { MainMenu } from '../components/MainMenu';
 import { PhotoInfo } from '../components/PhotoInfo';
 import { PhotoView } from '../components/PhotoView';
 
+import { Message } from './Message';
+
 export function App() {
   const [feature, setFeature] = useState<string>('editors');
   const [categories, setCategories] = useState<number[]>([]);
@@ -91,6 +93,7 @@ export function App() {
   }, [fallbackToNextPhoto]);
   return (
     <div className="pm-app">
+      <Message />
       <div className="pm-photo-view-container">
         <PhotoView data={photo} onError={handleError} />
       </div>

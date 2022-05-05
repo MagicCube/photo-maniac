@@ -2,6 +2,7 @@ import { useCallback, useEffect } from 'react';
 
 import type { Photo } from '@/types';
 import { StorageService } from '@/storage';
+import { showMessage } from './Message';
 
 export function useShortcutKeys({ photo }: { photo: Photo | null }) {
   const handleKeydown = useCallback(
@@ -17,6 +18,7 @@ export function useShortcutKeys({ photo }: { photo: Photo | null }) {
             case 'b':
               event.preventDefault();
               StorageService.addToBlacklist(photo);
+              showMessage('Added to blacklist');
               break;
             case 'v':
               event.preventDefault();
