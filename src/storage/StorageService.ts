@@ -105,9 +105,9 @@ class StorageServiceImpl {
       Object.keys(this._data)
     )) as StoredData;
     if (localData.allPhotos) {
-      this._data.allPhotos = localData.allPhotos;
+      this._data.allPhotos = shuffle(localData.allPhotos);
     } else {
-      this._data.allPhotos = DEFAULT_DATA.allPhotos;
+      this._data.allPhotos = shuffle(DEFAULT_DATA.allPhotos);
     }
     if (localData.nextPhoto) {
       this._data.nextPhoto = localData.nextPhoto;
