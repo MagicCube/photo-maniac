@@ -16,12 +16,15 @@ class MessageServiceImpl extends EventEmitter {
     }
   }
 
-  subscribe(messageType: MessageType, callback: (message: Message) => void) {
+  subscribe<P>(
+    messageType: MessageType,
+    callback: (message: Message<P>) => void
+  ) {
     this.on(messageType, callback);
   }
 
-  publish(message: Message | MessageType) {
-    const msg: Message =
+  publish<P>(message: Message<P> | MessageType) {
+    const msg: Message<P> =
       typeof message == 'string' ? { type: message } : message;
     if (supportRuntimeMessage()) {
       chrome.runtime.sendMessage(msg).catch();

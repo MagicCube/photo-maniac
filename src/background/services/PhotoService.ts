@@ -1,3 +1,8 @@
+import type {
+  Message,
+  PhotosUpdatedEventPayload,
+  UpdatePhotosCommandPayload,
+} from '@/messaging';
 import { MessageService } from '@/messaging';
 import { queryPhotos } from '@/graphql/queries';
 import { StorageService } from '@/storage';
@@ -23,9 +28,15 @@ class PhotoServiceImpl {
     MessageService.subscribe('photomaniac.commands.nextPhoto', () => {
       this.prefetchNextPhoto();
     });
-    MessageService.subscribe('photomaniac.commands.updatePhotos', () => {
-      this.updatePhotos({ initiatedByCommand: true });
-    });
+    MessageService.subscribe(
+      'photomaniac.commands.updatePhotos',
+      (message: Message<UpdatePhotosCommandPayload>) => {
+        this.updatePhotos({
+          initiatedByCommand: true,
+          tabId: message.payload?.tabId,
+        });
+      }
+    );
   }
 
   async start() {
@@ -36,7 +47,9 @@ class PhotoServiceImpl {
     }, 60 * 60 * 1000);
   }
 
-  async updatePhotos(options: { initiatedByCommand?: boolean } = {}) {
+  async updatePhotos(
+    options: { initiatedByCommand?: boolean; tabId?: number } = {}
+  ) {
     await StorageService.update();
     const feature = StorageService.data.feature;
     const categories = StorageService.data.categories;
@@ -65,7 +78,12 @@ class PhotoServiceImpl {
     );
     await this.prefetchNextPhoto();
     if (options.initiatedByCommand) {
-      MessageService.publish('photomaniac.events.photosUpdated');
+      MessageService.publish<PhotosUpdatedEventPayload>({
+        type: 'photomaniac.events.photosUpdated',
+        payload: {
+          tabId: options.tabId,
+        },
+      });
     }
   }
 
@@ -75,7 +93,6 @@ class PhotoServiceImpl {
     }
     const nextPhoto = this.photos.stack.pop();
     if (nextPhoto) {
-      this._addToRecent(nextPhoto);
       await this._prefetchPhoto(nextPhoto);
     }
   }
@@ -103,14 +120,6 @@ class PhotoServiceImpl {
   private async _saveToLocalStorage() {
     await StorageService.saveAllPhotos(this.photos.all);
     console.info(`${this.photos.stack.length} photos saved to local storage.`);
-  }
-
-  private async _addToRecent(photo: Photo) {
-    this.photos.recent.splice(0, 0, photo);
-    while (this.photos.recent.length > 3 * 4 + 1) {
-      this.photos.recent.pop();
-    }
-    await StorageService.saveRecentPhotos(this.photos.recent);
   }
 
   private _shuffle() {

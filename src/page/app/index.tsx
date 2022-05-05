@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { FALLBACK_PHOTOS } from '@/cached-data/fallback-photos';
+import type {
+  PhotosUpdatedEventPayload,
+  UpdatePhotosCommandPayload,
+} from '@/messaging';
 import { MessageService } from '@/messaging';
 import { StorageService } from '@/storage';
 import type { Photo } from '@/types';
@@ -39,10 +43,16 @@ export function App() {
     changePhoto(fallbackPhoto);
   }, [changePhoto, fallback]);
   useEffect(() => {
-    MessageService.subscribe('photomaniac.events.photosUpdated', () => {
-      update();
-      setUpdating(false);
-    });
+    MessageService.subscribe<PhotosUpdatedEventPayload>(
+      'photomaniac.events.photosUpdated',
+      async ({ payload }) => {
+        const currentTab = await chrome.tabs.getCurrent();
+        if (payload && currentTab.id === payload.tabId) {
+          update();
+          setUpdating(false);
+        }
+      }
+    );
     setFeature(StorageService.data.feature);
     setCategories(StorageService.data.categories);
     if (navigator.onLine) {
@@ -65,9 +75,15 @@ export function App() {
     },
     [changePhoto]
   );
-  const handleUpdate = useCallback(() => {
+  const handleUpdateClick = useCallback(async () => {
     setUpdating(true);
-    MessageService.publish('photomaniac.commands.updatePhotos');
+    const tab = await chrome.tabs.getCurrent();
+    MessageService.publish<UpdatePhotosCommandPayload>({
+      type: 'photomaniac.commands.updatePhotos',
+      payload: {
+        tabId: tab.id,
+      },
+    });
   }, []);
   const handleError = useCallback(() => {
     fallbackToNextPhoto();
@@ -85,7 +101,7 @@ export function App() {
           onFeatureChange={handleFeatureChange}
           onCategoriesChange={handleCategoriesChange}
           onPhotoSelect={handlePhotoSelect}
-          onUpdateClick={handleUpdate}
+          onUpdateClick={handleUpdateClick}
         />
       </div>
       <div className="pm-photo-info-container">
