@@ -53,13 +53,12 @@ class StorageServiceImpl {
 
   async addToRecent(photo: Photo) {
     await this.update();
-    const recentPhotos = this.data.recentPhotos;
-    if (recentPhotos.find((p) => p.id === photo.id)) {
+    if (this.data.recentPhotos.find((p) => p.id === photo.id)) {
       return;
     }
-    recentPhotos.unshift(photo);
-    while (recentPhotos.length > 12) {
-      recentPhotos.pop();
+    this.data.recentPhotos.unshift(photo);
+    while (this.data.recentPhotos.length > 12) {
+      this.data.recentPhotos.pop();
     }
     await this._saveToStorage('recentPhotos');
   }
@@ -70,6 +69,9 @@ class StorageServiceImpl {
       return;
     }
     this.data.blacklist.push(photo.id);
+    while (this.data.blacklist.length > 500) {
+      this.data.blacklist.pop();
+    }
     await this._saveToStorage('blacklist');
   }
 
