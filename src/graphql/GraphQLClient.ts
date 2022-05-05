@@ -10,6 +10,8 @@ export class GraphQLClient {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': 'fetch',
+        'X-500PX-TOKEN': 'fetch',
       },
       body: JSON.stringify({
         operationName,
