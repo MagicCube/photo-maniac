@@ -88,10 +88,14 @@ class PhotoServiceImpl {
   }
 
   async prefetchNextPhoto() {
+    await StorageService.update();
     if (this.photos.stack.length === 0) {
       this.photos.stack = shuffle([...this.photos.all]);
     }
-    const nextPhoto = this.photos.stack.pop();
+    let nextPhoto = this.photos.stack.pop();
+    while (nextPhoto && StorageService.data.blacklist.includes(nextPhoto.id)) {
+      nextPhoto = this.photos.stack.pop();
+    }
     if (nextPhoto) {
       await this._prefetchPhoto(nextPhoto);
     }

@@ -7,6 +7,7 @@ interface StoredData {
   categories: number[];
   allPhotos: Photo[];
   recentPhotos: Photo[];
+  blacklist: string[];
   nextPhoto: Photo | null;
 }
 
@@ -16,8 +17,9 @@ const DEFAULT_DATA: StoredData = {
   feature: 'editors',
   categories: [29, 13, 27, 30],
   allPhotos: shuffle(CACHED_PHOTOS),
-  nextPhoto: TMP_NEXT_PHOTO,
   recentPhotos: [TMP_NEXT_PHOTO],
+  blacklist: [],
+  nextPhoto: TMP_NEXT_PHOTO,
 };
 
 class StorageServiceImpl {
@@ -44,11 +46,6 @@ class StorageServiceImpl {
     await this._saveToStorage('allPhotos');
   }
 
-  async saveRecentPhotos(photos: Photo[]) {
-    this._data.recentPhotos = photos;
-    await this._saveToStorage('recentPhotos');
-  }
-
   async saveNextPhoto(photo: Photo) {
     this._data.nextPhoto = photo;
     await this._saveToStorage('nextPhoto');
@@ -64,14 +61,23 @@ class StorageServiceImpl {
     while (recentPhotos.length > 12) {
       recentPhotos.pop();
     }
-    await this.saveRecentPhotos(recentPhotos);
+    await this._saveToStorage('recentPhotos');
+  }
+
+  async addToBlacklist(photo: Photo) {
+    await this.update();
+    if (this.data.blacklist.find((id) => id === photo.id)) {
+      return;
+    }
+    this.data.blacklist.push(photo.id);
+    await this._saveToStorage('blacklist');
   }
 
   async update() {
     await this._loadFromStorage();
   }
 
-  async _loadFromStorage() {
+  private async _loadFromStorage() {
     if (!supportStorage()) {
       this._data = {
         ...DEFAULT_DATA,
@@ -111,9 +117,14 @@ class StorageServiceImpl {
     } else if (this._data.nextPhoto) {
       this._data.recentPhotos = [];
     }
+    if (localData.blacklist) {
+      this._data.blacklist = localData.blacklist;
+    } else if (this._data.nextPhoto) {
+      this._data.blacklist = [];
+    }
   }
 
-  async _saveToStorage(key: keyof StoredData) {
+  private async _saveToStorage(key: keyof StoredData) {
     if (supportStorage()) {
       if (['feature', 'categories'].includes(key)) {
         await chrome.storage.sync.set({ [key]: this._data[key] });
