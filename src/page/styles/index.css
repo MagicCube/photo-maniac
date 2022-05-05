@@ -91,21 +91,29 @@ input[type='checkbox'] {
   height: 100%;
 }
 
-.pm-message {
+.pm-message-container {
+  display: flex;
   position: fixed;
+  align-items: center;
+  justify-content: center;
   z-index: 99;
   top: var(--spacing-small);
-  left: 50%;
+  left: 0;
+  right: 0;
+}
+
+.pm-message {
   padding: 8px 16px;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.5);
   border-radius: 12px;
-  transform: translateX(-50%);
-  transition: all 0.2s ease-in-out;
+  transform: scale(0.5);
+  transition: all 0.1s ease-in-out;
   opacity: 0;
 }
 
 .pm-message.active {
   opacity: 1;
+  transform: scale(1);
 }
 
 .pm-500px-logo {

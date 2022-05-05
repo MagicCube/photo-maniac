@@ -93,7 +93,9 @@ export function App() {
   }, [fallbackToNextPhoto]);
   return (
     <div className="pm-app">
-      <Message />
+      <div className="pm-message-container">
+        <Message />
+      </div>
       <div className="pm-photo-view-container">
         <PhotoView data={photo} onError={handleError} />
       </div>
