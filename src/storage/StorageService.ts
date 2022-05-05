@@ -54,6 +54,19 @@ class StorageServiceImpl {
     await this._saveToStorage('nextPhoto');
   }
 
+  async addToRecent(photo: Photo) {
+    await this.update();
+    const recentPhotos = this.data.recentPhotos;
+    if (recentPhotos.find((p) => p.id === photo.id)) {
+      return;
+    }
+    recentPhotos.unshift(photo);
+    while (recentPhotos.length > 12) {
+      recentPhotos.pop();
+    }
+    await this.saveRecentPhotos(recentPhotos);
+  }
+
   async update() {
     await this._loadFromStorage();
   }
