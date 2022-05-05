@@ -17,7 +17,7 @@ export function queryPhotos({
   sort?: string;
   count?: number;
   cursor?: string;
-}) {
+}): Promise<{ photos: Photo[]; endCursor?: string; hasNextPage: boolean }> {
   return graphQLClient
     .query<
       {

@@ -66,25 +66,26 @@ class PhotoServiceImpl {
       ],
       count: 200,
     };
-    const result = await queryPhotos(params);
-    const photosFromServer = result.photos;
-    if (result.hasNextPage) {
-      const nextResult = await queryPhotos({
+    let result: Awaited<ReturnType<typeof queryPhotos>> = {
+      photos: [],
+      hasNextPage: true,
+    };
+    const photosFromServer: Photo[] = [];
+    while (result.hasNextPage && photosFromServer.length < 200) {
+      result = await queryPhotos({
         ...params,
         cursor: result.endCursor,
       });
-      photosFromServer.push(...nextResult.photos);
+      const filteredPhotos = result.photos.filter(
+        (photo) => !photo.notSafeForWork && photo.width / photo.height >= 1
+      );
+      photosFromServer.push(...filteredPhotos);
     }
-    const filteredPhotos = photosFromServer.filter(
-      (photo) => !photo.notSafeForWork && photo.width / photo.height >= 1
-    );
-    this.photos.all = filteredPhotos;
-    this.photos.stack = [...filteredPhotos];
+    this.photos.all = photosFromServer;
+    this.photos.stack = [...photosFromServer];
     await this._saveToLocalStorage();
     this._shuffle();
-    console.info(
-      `${filteredPhotos.length}/${photosFromServer.length} photos updated from 500px.`
-    );
+    console.info(`${photosFromServer.length} photos updated from 500px.`);
     await this.prefetchNextPhoto();
     if (options.initiatedByCommand) {
       MessageService.publish<PhotosUpdatedEventPayload>({
