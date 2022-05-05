@@ -13,7 +13,6 @@ export function RecentPhotosPage({ onPhotoSelect }: RecentPhotosPage) {
   );
   useEffect(() => {
     StorageService.update().then(() => {
-      console.info('RecentPhotosPage: useEffect', StorageService.data);
       setPhotos(StorageService.data.recentPhotos);
     });
   }, []);
