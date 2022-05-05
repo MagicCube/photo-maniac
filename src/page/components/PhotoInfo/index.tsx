@@ -10,7 +10,6 @@ export interface PhotoInfoProps {
 export function PhotoInfo({ data }: PhotoInfoProps) {
   const handleKeydown = useCallback(
     (event: KeyboardEvent) => {
-      console.info(event.key);
       if (event.key.toLowerCase() === 'v' && data?.legacyId) {
         event.preventDefault();
         window.open(`https://500px.com/photo/${data.legacyId}/`);
