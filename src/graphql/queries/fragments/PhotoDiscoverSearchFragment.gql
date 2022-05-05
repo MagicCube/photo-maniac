@@ -1,5 +1,10 @@
 fragment PhotoDiscoverSearchFragment on Query {
-  photos: photoDiscoverSearch(first: $count, filters: $filters, sort: $sort) {
+  photos: photoDiscoverSearch(
+    first: $count
+    after: $cursor
+    filters: $filters
+    sort: $sort
+  ) {
     edges {
       node {
         id
@@ -24,6 +29,10 @@ fragment PhotoDiscoverSearchFragment on Query {
           webpUrl
         }
       }
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
     }
   }
 }

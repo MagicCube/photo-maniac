@@ -58,14 +58,23 @@ class PhotoServiceImpl {
         .map((c) => getCategoryName(c))
         .join(', ')}]...`
     );
-    const photosFromServer = await queryPhotos({
+    const params = {
       feature,
       filters: [
         { key: 'CATEGORY', value: categories.join(',') },
         { key: 'FOLLOWERS_COUNT', value: 'gte:0' },
       ],
       count: 200,
-    });
+    };
+    const result = await queryPhotos(params);
+    const photosFromServer = result.photos;
+    if (result.hasNextPage) {
+      const nextResult = await queryPhotos({
+        ...params,
+        cursor: result.endCursor,
+      });
+      photosFromServer.push(...nextResult.photos);
+    }
     const filteredPhotos = photosFromServer.filter(
       (photo) => !photo.notSafeForWork && photo.width / photo.height >= 1
     );

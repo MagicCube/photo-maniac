@@ -10,20 +10,33 @@ export function queryPhotos({
   filters,
   sort = 'POPULAR_PULSE',
   count = 20,
+  cursor,
 }: {
   feature: string;
   filters: PhotoSearchFilter[];
   sort?: string;
   count?: number;
+  cursor?: string;
 }) {
   return graphQLClient
     .query<
-      { count: number; filters: PhotoSearchFilter[]; sort: string },
-      { photos: { edges: { node: Photo }[] } }
+      {
+        cursor?: string;
+        count: number;
+        filters: PhotoSearchFilter[];
+        sort: string;
+      },
+      {
+        photos: {
+          edges: { node: Photo }[];
+          pageInfo: { hasNextPage: boolean; endCursor: string };
+        };
+      }
     >(
       'Photos',
       gql`
         query Photos(
+          $cursor: String
           $count: Int
           $filters: [PhotoDiscoverSearchFilter!]
           $sort: PhotoDiscoverSort
@@ -34,10 +47,15 @@ export function queryPhotos({
         ${PhotoDiscoverSearchFragment}
       `,
       {
+        cursor,
         count,
         filters: [{ key: 'FEATURE_NAME', value: feature }, ...filters],
         sort,
       }
     )
-    .then((data) => data.photos.edges.map((edge) => edge.node));
+    .then((data) => ({
+      photos: data.photos.edges.map((edge) => edge.node),
+      endCursor: data.photos.pageInfo.endCursor,
+      hasNextPage: data.photos.pageInfo.hasNextPage,
+    }));
 }
