@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import cn from 'classnames';
 import { EventEmitter } from 'eventemitter3';
@@ -9,8 +9,8 @@ export function Message() {
   const [messageContent, setMessageContent] = useState<string | null>(null);
   const [active, setActive] = useState(false);
   const [timer, setTimer] = useState(0);
-  useEffect(() => {
-    messageCenter.on('message', ({ content }: { content: string }) => {
+  const handleMessage = useCallback(
+    ({ content }: { content: string }) => {
       if (timer) {
         window.clearTimeout(timer);
         setTimer(0);
@@ -21,8 +21,15 @@ export function Message() {
         setActive(false);
       }, 1200);
       setTimer(t);
-    });
-  }, [timer]);
+    },
+    [timer]
+  );
+  useEffect(() => {
+    messageCenter.on('message', handleMessage);
+    return () => {
+      messageCenter.off('message', handleMessage);
+    };
+  }, [handleMessage, timer]);
   return (
     <div className={cn('pm-message', active && 'active')}>{messageContent}</div>
   );
