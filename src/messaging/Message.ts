@@ -7,3 +7,11 @@ export interface Message<P = undefined> {
   type: MessageType;
   payload?: P;
 }
+
+export interface UpdatePhotosCommandPayload {
+  tabId?: number;
+}
+
+export interface PhotosUpdatedEventPayload {
+  tabId?: number;
+}
