@@ -1,3 +1,4 @@
+import { logger } from '@/logging';
 import type {
   Message,
   PhotosUpdatedEventPayload,
@@ -53,7 +54,7 @@ class PhotoServiceImpl {
     await StorageService.update();
     const feature = StorageService.data.feature;
     const categories = StorageService.data.categories;
-    console.info(
+    logger.info(
       `Updating ${getFeatureName(feature)} photos of [${categories
         .map((c) => getCategoryName(c))
         .join(', ')}]...`
@@ -85,7 +86,7 @@ class PhotoServiceImpl {
     this.photos.stack = [...photosFromServer];
     await this._saveToLocalStorage();
     this._shuffle();
-    console.info(`${photosFromServer.length} photos updated from 500px.`);
+    logger.info(`${photosFromServer.length} photos updated from 500px.`);
     await this.prefetchNextPhoto();
     if (options.initiatedByCommand) {
       MessageService.publish<PhotosUpdatedEventPayload>({
@@ -113,7 +114,7 @@ class PhotoServiceImpl {
 
   private async _prefetchPhoto(photo: Photo) {
     const url = photo.images[0].webpUrl;
-    console.info(`Prefetching ${url}...`);
+    logger.info(`Prefetching ${url}...`);
     await PrefetchService.prefetch(url);
     await StorageService.saveNextPhoto(photo);
   }
@@ -124,7 +125,7 @@ class PhotoServiceImpl {
       this.photos.all = results.allPhotos;
       this.photos.stack = [...results.allPhotos];
       this.photos.recent = results.recentPhotos;
-      console.info(
+      logger.info(
         `${this.photos.all.length} photos loaded from local storage.`
       );
       this._shuffle();
@@ -133,7 +134,7 @@ class PhotoServiceImpl {
 
   private async _saveToLocalStorage() {
     await StorageService.saveAllPhotos(this.photos.all);
-    console.info(`${this.photos.stack.length} photos saved to local storage.`);
+    logger.info(`${this.photos.stack.length} photos saved to local storage.`);
   }
 
   private _shuffle() {

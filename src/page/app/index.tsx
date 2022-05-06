@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { FALLBACK_PHOTOS } from '@/cached-data/fallback-photos';
+import { logger } from '@/logging';
 import type {
   PhotosUpdatedEventPayload,
   UpdatePhotosCommandPayload,
@@ -24,7 +25,7 @@ export function App() {
   const changePhoto = useCallback((photo: Photo) => {
     setPhoto(photo);
     document.title = `New Tab${photo?.name && ` - ${photo.name}`}`;
-    console.info(`Photo${photo?.name && ` - ${photo.name}`}`, photo);
+    logger.info(`Photo${photo?.name && ` - ${photo.name}`}`, photo);
   }, []);
 
   const update = useCallback(async () => {

@@ -1,3 +1,5 @@
+import { logger } from '@/logging';
+
 const CACHE_NAME = 'photo-maniac-prefetch';
 
 class PrefetchServiceImpl {
@@ -11,7 +13,7 @@ class PrefetchServiceImpl {
     const cache = await caches.open(CACHE_NAME);
     const cachedResponse = await cache.match(url);
     if (cachedResponse) {
-      console.info('Cached request', url);
+      logger.info('Cached request', url);
     }
     return cachedResponse?.clone() || fetch(url);
   }
