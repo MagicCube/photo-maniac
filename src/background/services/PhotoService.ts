@@ -71,7 +71,7 @@ class PhotoServiceImpl {
       hasNextPage: true,
     };
     const photosFromServer: Photo[] = [];
-    while (result.hasNextPage && photosFromServer.length < 200) {
+    while (result.hasNextPage && photosFromServer.length < 300) {
       result = await queryPhotos({
         ...params,
         cursor: result.endCursor,
